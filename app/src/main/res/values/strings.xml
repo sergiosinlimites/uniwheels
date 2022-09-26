@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Uniwheels App</string>
+    <string name="home_fill_data">Ingresar datos del viaje</string>
+    <string name="home_departure_point">Punto de partida</string>
+    <string name="home_arrival_point">Punto de llegada</string>
+    <string name="home_what_want">¿Qué quieres hacer?</string>
+    <string name="home_now">Salir ya</string>
+    <string name="home_plan">Planear</string>
+</resources>
