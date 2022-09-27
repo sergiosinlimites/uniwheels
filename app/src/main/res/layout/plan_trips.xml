@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="356dp"
+        android:layout_height="762dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="369dp"
+            android:layout_height="100dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/titulo"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="@string/plane_travel_title"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/texto"
+                android:layout_width="320dp"
+                android:layout_height="65dp"
+                android:fontFamily="@font/montserrat_regular"
+                android:text="Ingresa tus requerimientos para encontrar un viaje que se adecue a tus necesidades."
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="360dp"
+            android:layout_height="145dp"
+            android:layout_marginTop="4dp">
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="356dp"
+                android:layout_height="126dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/departureInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:ems="10"
+                    android:hint="@string/home_departure_point"
+                    android:inputType="textPostalAddress"
+                    android:textColor="@color/green"
+                    android:textColorHint="@color/light_green" />
+
+                <EditText
+                    android:id="@+id/arrivalInput"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:ems="10"
+                    android:hint="@string/home_arrival_point"
+                    android:inputType="textPostalAddress"
+                    android:textColor="@color/green"
+                    android:textColorHint="@color/light_green" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="75dp">
+
+            <LinearLayout
+                android:layout_width="327dp"
+                android:layout_height="52dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/buscar"
+                    android:layout_width="296dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/green"
+                    android:onClick="onPlanRide"
+                    android:text="Buscar Viajes"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="20dp" />
+
+                <Space
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="337dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/titulo3"
+                    android:layout_width="match_parent"
+                    android:layout_height="31dp"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Viajes encontrados"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/texto2"
+                    android:layout_width="341dp"
+                    android:layout_height="75dp"
+                    android:layout_weight="1"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:text="Los viajes en color amarillo indican que lo realiza un conductor que marcaste como favorito."
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <LinearLayout
+                android:layout_width="229dp"
+                android:layout_height="53dp"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Button
+                    android:id="@+id/volver"
+                    android:layout_width="228dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/green"
+                    android:onClick="onPlanRide"
+                    android:text="@string/return_bottom"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="20dp" />
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
