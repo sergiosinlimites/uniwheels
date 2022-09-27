@@ -15,12 +15,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onGoNow(View view){
-        Intent i = new Intent(this, AvailableTravelsActivity.class);
+        Intent i = new Intent(this, PlanTripsActivity.class);
         startActivity(i);
     }
 
     public void onPlanRide(View view){
-        Intent i = new Intent(this, AvailableTravelsActivity.class);
-        startActivity(i);
+        try {
+            System.out.println("entra");
+            Intent i = new Intent(this, PlanTripsActivity.class);
+            startActivity(i);
+        } catch (Exception exception) {
+            System.out.println(exception);
+        }
     }
 }
