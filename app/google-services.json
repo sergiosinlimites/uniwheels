@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "206355671353",
+    "project_id": "uniwheels-962ff",
+    "storage_bucket": "uniwheels-962ff.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:206355671353:android:7dfb9bad287b43067060e8",
+        "android_client_info": {
+          "package_name": "com.uniwheelsapp.uniwheelsapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "206355671353-ofdnmu3efcv3qdg487ofc5rhp405ujh5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_DcnanikindguzkEkJNZ2EHo4QpNFR5k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "206355671353-ofdnmu3efcv3qdg487ofc5rhp405ujh5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
