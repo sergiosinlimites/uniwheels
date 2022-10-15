@@ -5,6 +5,16 @@
     <string name="entry">Ingresar</string>
     <string name="register">Registrarse</string>
 
+    <string name="enter_data">Ingresa tus datos</string>
+    <string name="password">Contraseña</string>
+    <string name="button_continue">Continuar</string>
+
+    <string name="enter_name">Ingresa tu nombre</string>
+    <string name="enter_apellido">Ingresa tu apellido</string>
+    <string name="enter_email">Ingresa tu email</string>
+    <string name="enter_password">Ingresa tu contraseña</string>
+    <string name="confirm_password">Confirma tu contraseña</string>
+
     <string name="app_name">Uniwheels App</string>
     <string name="home_fill_data">Ingresar datos del viaje</string>
     <string name="home_departure_point">Punto de partida</string>
