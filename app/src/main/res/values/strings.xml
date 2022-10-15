@@ -1,4 +1,10 @@
 <resources>
+    <string name="name">Uniwheels</string>
+    <string name="slogan">rápido, seguro, eficaz</string>
+    <string name="entrance_start">Comencemos</string>
+    <string name="entry">Ingresar</string>
+    <string name="register">Registrarse</string>
+
     <string name="app_name">Uniwheels App</string>
     <string name="home_fill_data">Ingresar datos del viaje</string>
     <string name="home_departure_point">Punto de partida</string>
