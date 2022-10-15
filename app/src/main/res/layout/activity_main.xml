@@ -18,8 +18,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="467dp"
+            android:gravity="center"
             android:orientation="vertical">
 
+            <Button
+                android:id="@+id/logout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Log out" />
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout

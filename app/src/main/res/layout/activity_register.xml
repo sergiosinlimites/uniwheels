@@ -137,7 +137,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/googleButton"
                 android:layout_width="match_parent"
                 android:layout_height="46dp"
                 app:srcCompat="@drawable/googleg_standard_color_18" />
