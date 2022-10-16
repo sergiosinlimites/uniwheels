@@ -69,7 +69,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     if (documentSnapshot.exists()) {
                         Person persona = documentSnapshot.toObject(Person.class);
-                        Log.d("USER", persona.toString());
+                        Log.d("USER", "EXISTE " + persona.getNombre());
                     } else {
                         Log.w("USER", "NO EXISTE");
                     }
@@ -102,6 +102,7 @@ public class RegisterActivity extends AppCompatActivity {
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
                         Log.d("SUCCESS", "wooooo");
+
                     } else {
                         Log.w("ERROR", "jeejejee");
                     }
