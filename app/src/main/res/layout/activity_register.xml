@@ -35,7 +35,7 @@
 
         <LinearLayout
             android:layout_width="370dp"
-            android:layout_height="198dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="28dp"
             android:layout_marginTop="42dp"
             android:layout_marginEnd="28dp"
@@ -77,15 +77,6 @@
                 android:minHeight="48dp"
                 android:textColorHint="@color/light_green" />
 
-            <EditText
-                android:id="@+id/signupEmailConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/enter_email"
-                android:inputType="textEmailAddress"
-                android:minHeight="48dp"
-                android:textColorHint="@color/light_green" />
         </LinearLayout>
 
         <TextView
@@ -136,19 +127,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/googleButton"
-                android:layout_width="match_parent"
-                android:layout_height="46dp"
-                app:srcCompat="@drawable/googleg_standard_color_18" />
-
             <Button
                 android:id="@+id/signupContinue"
                 android:layout_width="180dp"
                 android:layout_height="60dp"
                 android:backgroundTint="@color/green"
                 android:fontFamily="@font/montserrat_regular"
-                android:text="Continuar"
+                android:onClick="continueButton"
+                android:text="@string/button_continue"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textStyle="bold"

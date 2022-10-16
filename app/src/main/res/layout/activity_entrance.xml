@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="391dp"
+            android:layout_width="match_parent"
             android:layout_height="441dp"
             android:background="@color/light_green"
             android:gravity="center"
@@ -79,11 +79,10 @@
                 app:cornerRadius="20dp" />
 
             <Button
-                android:id="@+id/loginButton2"
+                android:id="@+id/registerButton"
                 android:layout_width="302dp"
                 android:layout_height="56dp"
                 android:backgroundTint="@color/green"
-                android:onClick="onGoRegister"
                 android:text="@string/register"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
