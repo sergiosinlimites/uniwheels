@@ -8,11 +8,30 @@
     <string name="enter_data">Ingresa tus datos</string>
     <string name="password">Contraseña</string>
     <string name="button_continue">Continuar</string>
+    <string name="update">Actualizar</string>
+    <string name="delete">Eliminar</string>
+
+    <string name="additional_data">Datos adicionales</string>
 
     <string name="enter_name">Ingresa tu nombre</string>
     <string name="enter_apellido">Ingresa tu apellido</string>
     <string name="enter_email">Ingresa tu email</string>
     <string name="enter_password">Ingresa tu contraseña</string>
+    <string name="enter_id">Ingresa tu identificación</string>
+    <string name="enter_address">Ingresa tu dirección</string>
+    <string name="enter_cellphone">Ingresa tu número de celular</string>
+
+    <string name="upload_id_photo">Sube una foto de tu identificación</string>
+
+    <string name="select_vehicle_type">Selecciona tu tipo de vehículo</string>
+    <string name="select_rol">Selecciona tu rol</string>
+    <string name="select_driver_rol">Conductor</string>
+    <string name="select_passenger_rol">Pasajero</string>
+    <string name="select_motorcycle">Motocicleta</string>
+    <string name="select_car">Automovil</string>
+
+    <string name="upload_image">Subir imagen</string>
+
     <string name="confirm_password">Confirma tu contraseña</string>
 
     <string name="app_name">Uniwheels App</string>

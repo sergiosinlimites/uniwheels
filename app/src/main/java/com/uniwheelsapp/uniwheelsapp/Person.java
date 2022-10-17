@@ -1,6 +1,7 @@
 package com.uniwheelsapp.uniwheelsapp;
 
 import java.util.Date;
+import java.util.List;
 
 public class Person {
     public static final String NAME_KEY = "nombre";
@@ -26,7 +27,7 @@ public class Person {
     private String email;
     private Integer celular;
     private String foto;
-    private String[] fotosCedula;
+    private List<String> fotosCedula;
     private String direccion;
     private Integer calificacion;
     private Boolean habilitado;
@@ -83,11 +84,11 @@ public class Person {
         this.foto = foto;
     }
 
-    public String[] getFotosCedula() {
+    public List<String> getFotosCedula() {
         return fotosCedula;
     }
 
-    public void setFotosCedula(String[] fotosCedula) {
+    public void setFotosCedula(List<String> fotosCedula) {
         this.fotosCedula = fotosCedula;
     }
 
