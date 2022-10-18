@@ -23,6 +23,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import javax.annotation.Nullable;
 
@@ -38,6 +39,25 @@ public class EntranceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrance);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            System.out.println("Fetching FCM registration token failed");
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+
+                        // Log and toast
+                        System.out.println(token);
+                        Toast.makeText(EntranceActivity.this, "Your device configuration token is" + token, Toast.LENGTH_SHORT).show();
+                    }
+                });
+
 
         FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
         Bundle bundleAnalytics = new Bundle();
