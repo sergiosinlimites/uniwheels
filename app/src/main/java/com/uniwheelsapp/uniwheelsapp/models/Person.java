@@ -1,4 +1,6 @@
-package com.uniwheelsapp.uniwheelsapp;
+package com.uniwheelsapp.uniwheelsapp.models;
+
+import com.google.firebase.firestore.PropertyName;
 
 import java.util.Date;
 import java.util.List;
@@ -40,6 +42,7 @@ public class Person {
         return nombre;
     }
 
+    @PropertyName("nombre")
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }

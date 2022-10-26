@@ -1,4 +1,4 @@
-package com.uniwheelsapp.uniwheelsapp;
+package com.uniwheelsapp.uniwheelsapp.usecases.home;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +17,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
-
-import java.util.Locale;
+import com.uniwheelsapp.uniwheelsapp.PlanTripsActivity;
+import com.uniwheelsapp.uniwheelsapp.R;
+import com.uniwheelsapp.uniwheelsapp.usecases.onboarding.EntranceActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -95,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 finish();
-                startActivity(new Intent(getApplicationContext(),EntranceActivity.class));
+                startActivity(new Intent(getApplicationContext(), EntranceActivity.class));
             }
         });
     }

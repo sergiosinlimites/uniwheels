@@ -1,4 +1,4 @@
-package com.uniwheelsapp.uniwheelsapp;
+package com.uniwheelsapp.uniwheelsapp.usecases.onboarding;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +24,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.uniwheelsapp.uniwheelsapp.R;
+import com.uniwheelsapp.uniwheelsapp.usecases.register.RegisterActivity;
 
 import javax.annotation.Nullable;
 
@@ -64,7 +66,7 @@ public class EntranceActivity extends AppCompatActivity {
         bundleAnalytics.putString("message", "Integración con firebase");
         firebaseAnalytics.logEvent("InitScreen", bundleAnalytics);
 
-        registerButton = findViewById(R.id.registerButton);
+        registerButton = findViewById(com.uniwheelsapp.uniwheelsapp.R.id.registerButton);
         gso = new GoogleSignInOptions.Builder()
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -79,11 +81,12 @@ public class EntranceActivity extends AppCompatActivity {
         });
     }
 
-    public void onGoLogin(View view){
-        throw new RuntimeException("Test Crash");
-        // Intent i = new Intent(this, LoginActivity.class);
-        // startActivity(i);
-    }
+//    public void onGoLogin(View view){
+//        Intent i = new Intent(this, HomeDriverActivity.class);
+//        startActivity(i);
+//        // Intent i = new Intent(this, LoginActivity.class);
+//        // startActivity(i);
+//    }
 
     public void SignIn(){
         Log.d("ABRE LOGIN", "LOGIN ");

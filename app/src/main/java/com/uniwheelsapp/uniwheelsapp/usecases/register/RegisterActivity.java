@@ -1,4 +1,4 @@
-package com.uniwheelsapp.uniwheelsapp;
+package com.uniwheelsapp.uniwheelsapp.usecases.register;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,6 +32,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+import com.uniwheelsapp.uniwheelsapp.R;
+import com.uniwheelsapp.uniwheelsapp.RegisterInfo;
+import com.uniwheelsapp.uniwheelsapp.models.Person;
+import com.uniwheelsapp.uniwheelsapp.usecases.home.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -74,7 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_register);
+        setContentView(com.uniwheelsapp.uniwheelsapp.R.layout.activity_register);
 
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
@@ -83,7 +87,7 @@ public class RegisterActivity extends AppCompatActivity {
         if(account != null){
             userId = account.getId();
             email = account.getEmail();
-
+            System.out.println("El email es "+ email.toString());
             userDocRef = db.collection("users").document(email);
             checkValidity(email);
         }
@@ -157,26 +161,26 @@ public class RegisterActivity extends AppCompatActivity {
      */
     private void checkValidity(String email){
         userDocRef.get()
-            .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                @Override
-                public void onSuccess(DocumentSnapshot documentSnapshot) {
-                    if (documentSnapshot.exists()) {
-                        Person persona = documentSnapshot.toObject(Person.class);
-                        if(
-                            persona.getNombre().isEmpty() ||
-                            persona.getApellido().isEmpty() ||
-                            persona.getCedula() == null ||
-                            persona.getCelular() == null
-                        ) {
-                            setFields(persona);
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            Person persona = documentSnapshot.toObject(Person.class);
+                            if(
+                                    persona.getNombre().isEmpty() ||
+                                            persona.getApellido().isEmpty() ||
+                                            persona.getCedula() == null ||
+                                            persona.getCelular() == null
+                            ) {
+                                setFields(persona);
+                            } else {
+                                MainActivity();
+                            }
                         } else {
-                            MainActivity();
+                            Log.w("USER", "NO EXISTE");
                         }
-                    } else {
-                        Log.w("USER", "NO EXISTE");
                     }
-                }
-            });
+                });
     }
 
     /**
