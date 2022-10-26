@@ -3,6 +3,7 @@ package com.uniwheelsapp.uniwheelsapp.usecases.register;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,11 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,6 +30,7 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.uniwheelsapp.uniwheelsapp.R;
 import com.uniwheelsapp.uniwheelsapp.RegisterInfo;
+import com.uniwheelsapp.uniwheelsapp.databinding.ActivityRegisterBinding;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
 import com.uniwheelsapp.uniwheelsapp.usecases.home.MainActivity;
 
@@ -44,12 +41,8 @@ import java.util.List;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
-    // Partes de la vista
-    LinearLayout driverSection;
-    ImageView idImage;
-    Button updateImage, removeImage;
-    TextView signUpEmail;
-    EditText nameInput, lastNameInput, addressInput, cellphoneInput, idInput;
+
+    private ActivityRegisterBinding binding;
 
     // Firebase Storage
     StorageReference storageReference;
@@ -58,7 +51,6 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int COD_SEL_IMAGE = 300;
     private Uri documentUrl;
     String photo = "photo";
-    String idd;
 
     ProgressDialog progressDialog;
 
@@ -80,6 +72,8 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(com.uniwheelsapp.uniwheelsapp.R.layout.activity_register);
 
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
+
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
 
         mAuth = FirebaseAuth.getInstance();
@@ -92,25 +86,20 @@ public class RegisterActivity extends AppCompatActivity {
             checkValidity(email);
         }
 
-        driverSection = (LinearLayout) this.findViewById(R.id.driverSectionLayout);
-        driverSection.setVisibility(View.INVISIBLE);
+        binding.driverSectionLayout.setVisibility(View.INVISIBLE);
 
         progressDialog = new ProgressDialog(this);
 
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        idImage = findViewById(R.id.imageIdentificacion);
-        updateImage = findViewById(R.id.buttonUpdateImage);
-        removeImage = findViewById(R.id.buttonDeleteImage);
-
-        updateImage.setOnClickListener(new View.OnClickListener() {
+        binding.imageIdentificacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 uploadPhoto();
             }
         });
 
-        removeImage.setOnClickListener(new View.OnClickListener() {
+        binding.buttonDeleteImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 deletePhoto();
@@ -152,7 +141,7 @@ public class RegisterActivity extends AppCompatActivity {
      * Elimina la foto de la vista
      */
     private void deletePhotoFromView(){
-        idImage.setImageResource(android.R.drawable.ic_menu_upload);
+        binding.imageIdentificacion.setImageResource(android.R.drawable.ic_menu_upload);
     }
 
     /**
@@ -189,7 +178,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void onSelectDriver(View view){
         Log.d("BOTON", "SE HACE");
-        driverSection.setVisibility(View.VISIBLE);
+        binding.driverSectionLayout.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -197,7 +186,7 @@ public class RegisterActivity extends AppCompatActivity {
      * @param view La vista
      */
     public void onSelectPassenger(View view){
-        driverSection.setVisibility(View.INVISIBLE);
+        binding.driverSectionLayout.setVisibility(View.INVISIBLE);
     }
 
     @Override
@@ -255,18 +244,12 @@ public class RegisterActivity extends AppCompatActivity {
      * @param person El documento de la base de datos del usuario
      */
     private void setFields(Person person){
-        signUpEmail = (TextView) findViewById(R.id.signUpEmail);
-        nameInput = (EditText) findViewById(R.id.signupNameInput);
-        lastNameInput = (EditText) findViewById(R.id.signupLastNameInput);
-        addressInput = (EditText) findViewById(R.id.signupAddressInput);
-        cellphoneInput = (EditText) findViewById(R.id.signupCellphoneInput);
-        idInput = (EditText) findViewById(R.id.signupIdInput);
-        nameInput.setText(person.getNombre());
-        lastNameInput.setText(person.getApellido());
-        signUpEmail.setText(person.getEmail());
-        addressInput.setText(person.getDireccion());
-        cellphoneInput.setText(person.getCelular() != null ? person.getCelular().toString() : "");
-        idInput.setText(person.getCedula() != null ? person.getCedula().toString() : "");
+        binding.signUpEmail.setText(person.getEmail() != null ? person.getEmail() : email);
+        binding.signupNameInput.setText(person.getNombre());
+        binding.signupLastNameInput.setText(person.getApellido());
+        binding.signupCellphoneInput.setText(person.getDireccion());
+        binding.signupCellphoneInput.setText(person.getCelular() != null ? person.getCelular().toString() : "");
+        binding.signupIdInput.setText(person.getCedula() != null ? person.getCedula().toString() : "");
         getImage();
     }
 
@@ -285,7 +268,7 @@ public class RegisterActivity extends AppCompatActivity {
                             Picasso.with(RegisterActivity.this)
                                     .load(documentPhoto)
                                     .resize(150, 150)
-                                    .into(idImage);
+                                    .into(binding.imageIdentificacion);
                         } catch (Exception e) {
                             Log.w("ERROR", e);
                         }
@@ -300,15 +283,12 @@ public class RegisterActivity extends AppCompatActivity {
      * @param view La vista
      */
     public void continueButton(View view){
-        EditText nombreView = (EditText) findViewById(R.id.signupNameInput);
-        EditText apellidoView = (EditText) findViewById(R.id.signupLastNameInput);
-        EditText passwordView = (EditText) findViewById(R.id.signupPassword);
-        EditText confirmPasswordView = (EditText) findViewById(R.id.signupPasswordConfirm);
-        String nombre = nameInput.getText().toString();
-        String apellido = lastNameInput.getText().toString();
-        String direccion = addressInput.getText().toString();
-        Number cellphone = cellphoneInput.getText() != null ? Integer.parseInt(cellphoneInput.getText().toString()) : null;
-        Number identificacion = idInput.getText() != null ? Integer.parseInt(idInput.getText().toString()) : null;
+
+        String nombre = binding.signupNameInput.getText().toString();
+        String apellido = binding.signupLastNameInput.getText().toString();
+        String direccion = binding.signupAddressInput.getText().toString();
+        Number cellphone = binding.signupCellphoneInput.getText() != null ? Integer.parseInt(binding.signupCellphoneInput.getText().toString()) : null;
+        Number identificacion = binding.signupIdInput.getText() != null ? Integer.parseInt(binding.signupIdInput.getText().toString()) : null;
 
         if(nombre.isEmpty() || apellido.isEmpty() || direccion.isEmpty() || cellphone.toString().isEmpty() || identificacion.toString().isEmpty()){
             Log.w("ERROR", "No se puede continuar");
@@ -339,13 +319,6 @@ public class RegisterActivity extends AppCompatActivity {
     private void MainActivity(){
         finish();
         Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-    }
-
-    /** No usada */
-    private void RegisterInfoActivity(){
-        finish();
-        Intent intent = new Intent(this, RegisterInfo.class);
         startActivity(intent);
     }
 

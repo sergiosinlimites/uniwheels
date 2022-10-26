@@ -8,6 +8,10 @@ android {
     namespace 'com.uniwheelsapp.uniwheelsapp'
     compileSdk 32
 
+    dataBinding {
+        enabled = true
+    }
+
     defaultConfig {
         applicationId "com.uniwheelsapp.uniwheelsapp"
         minSdk 22
