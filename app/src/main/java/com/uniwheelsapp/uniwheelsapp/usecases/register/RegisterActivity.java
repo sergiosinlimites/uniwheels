@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -33,6 +35,8 @@ import com.uniwheelsapp.uniwheelsapp.RegisterInfo;
 import com.uniwheelsapp.uniwheelsapp.databinding.ActivityRegisterBinding;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
 import com.uniwheelsapp.uniwheelsapp.usecases.home.MainActivity;
+import com.uniwheelsapp.uniwheelsapp.usecases.onboarding.EntranceActivity;
+import com.uniwheelsapp.uniwheelsapp.usecases.onboarding.EntranceViewModel;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +47,8 @@ import java.util.Map;
 public class RegisterActivity extends AppCompatActivity {
 
     private ActivityRegisterBinding binding;
+
+    private RegisterViewModel viewModel;
 
     // Firebase Storage
     StorageReference storageReference;
@@ -60,10 +66,6 @@ public class RegisterActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     String userId;
 
-    // Firebase FireStore
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DocumentReference userDocRef = null;
-
     // Fields
     String email;
 
@@ -74,17 +76,40 @@ public class RegisterActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
 
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        viewModel = new ViewModelProvider(this).get(RegisterViewModel.class
+        );
 
-        mAuth = FirebaseAuth.getInstance();
+        viewModel.getAccountData().observe(this, new Observer<GoogleSignInAccount>() {
+            @Override
+            public void onChanged(GoogleSignInAccount googleSignInAccount) {
+                if(googleSignInAccount != null){
+                    userId = googleSignInAccount.getId();
+                    email = googleSignInAccount.getEmail();
+                    checkValidity(email);
+                } else {
+                    GoBack();
+                }
+            }
+        });
 
-        if(account != null){
-            userId = account.getId();
-            email = account.getEmail();
-            System.out.println("El email es "+ email.toString());
-            userDocRef = db.collection("users").document(email);
-            checkValidity(email);
-        }
+        viewModel.getPerson().observe(this, new Observer<Person>() {
+            @Override
+            public void onChanged(Person person) {
+                if(
+                    person.getNombre().isEmpty() ||
+                    person.getApellido().isEmpty() ||
+                    person.getCedula() == null ||
+                    person.getCelular() == null
+                ) {
+                    setFields(person);
+                    getImage(person);
+                } else {
+                    setFields(person);
+                    getImage(person);
+                    // MainActivity();
+                }
+            }
+        });
 
         binding.driverSectionLayout.setVisibility(View.INVISIBLE);
 
@@ -106,12 +131,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        // Google Connection
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        gsc = GoogleSignIn.getClient(this, gso);
+//        // Google Connection
+//        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//                .requestEmail()
+//                .build();
+//
+//        gsc = GoogleSignIn.getClient(this, gso);
     }
 
     /**
@@ -132,7 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
         personDocuments.add("");
         Log.d("PERSON", personDocuments.toArray().toString());
         userObject.put(Person.IDPHOTOS_KEY, personDocuments.toArray());
-        userDocRef.update(userObject);
+        viewModel.updateUserDocument(email, userObject);
         deletePhotoFromView();
         Toast.makeText(this, "Foto del documento eliminada", Toast.LENGTH_SHORT).show();
     }
@@ -149,27 +174,7 @@ public class RegisterActivity extends AppCompatActivity {
      * @param email
      */
     private void checkValidity(String email){
-        userDocRef.get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            Person persona = documentSnapshot.toObject(Person.class);
-                            if(
-                                    persona.getNombre().isEmpty() ||
-                                            persona.getApellido().isEmpty() ||
-                                            persona.getCedula() == null ||
-                                            persona.getCelular() == null
-                            ) {
-                                setFields(persona);
-                            } else {
-                                MainActivity();
-                            }
-                        } else {
-                            Log.w("USER", "NO EXISTE");
-                        }
-                    }
-                });
+        viewModel.searchInDB(email);
     }
 
     /**
@@ -224,10 +229,9 @@ public class RegisterActivity extends AppCompatActivity {
                                     HashMap<String, Object> userObject = new HashMap<>();
                                     Log.d("URI DOWNLOAD", downloadUri);
                                     userObject.put(Person.IDPHOTOS_KEY, Arrays.asList(downloadUri));
-                                    userDocRef.update(userObject);
+                                    viewModel.updateUserDocument(email, userObject);
                                     Toast.makeText(RegisterActivity.this, "Foto actualizada", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
-                                    getImage();
                                 }
                             });
                         }
@@ -250,32 +254,26 @@ public class RegisterActivity extends AppCompatActivity {
         binding.signupCellphoneInput.setText(person.getDireccion());
         binding.signupCellphoneInput.setText(person.getCelular() != null ? person.getCelular().toString() : "");
         binding.signupIdInput.setText(person.getCedula() != null ? person.getCedula().toString() : "");
-        getImage();
     }
 
     /**
      * Muestra la imagen del documento de identidad
      */
-    private void getImage(){
-        userDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                List<String> documents = (List<String>) documentSnapshot.get(Person.IDPHOTOS_KEY);
-                if(documents.size() > 0){
-                    String documentPhoto = documents.get(0);
-                    if(documentPhoto != null){
-                        try {
-                            Picasso.with(RegisterActivity.this)
-                                    .load(documentPhoto)
-                                    .resize(150, 150)
-                                    .into(binding.imageIdentificacion);
-                        } catch (Exception e) {
-                            Log.w("ERROR", e);
-                        }
-                    }
+    private void getImage(Person person){
+        List<String> photos = person.getFotosCedula();
+        if(photos.size() > 0){
+            String documentPhoto = photos.get(0);
+            if(documentPhoto != null){
+                try {
+                    Picasso.with(RegisterActivity.this)
+                            .load(documentPhoto)
+                            .resize(150, 150)
+                            .into(binding.imageIdentificacion);
+                } catch (Exception e) {
+                    Log.w("ERROR", e);
                 }
             }
-        });
+        }
     }
 
     /**
@@ -294,15 +292,13 @@ public class RegisterActivity extends AppCompatActivity {
             Log.w("ERROR", "No se puede continuar");
             Toast.makeText(this, "No se puede continuar, faltan campos por llenar", Toast.LENGTH_SHORT).show();
         } else {
-            Map<String, Object> userData = new HashMap<String, Object>();
-            userData.put(Person.MAIL_KEY, email);
+            Map<String, Object> userData = new HashMap<>();
             userData.put(Person.NAME_KEY, nombre);
             userData.put(Person.LASTNAME_KEY, apellido);
             userData.put(Person.ADDRESS_KEY, direccion);
             userData.put(Person.CELLPHONE_KEY, cellphone);
             userData.put(Person.ID_KEY, identificacion);
-
-            db.collection("users").document(email).update(userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            viewModel.updateUserDocument(email, userData).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
@@ -314,6 +310,11 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void GoBack(){
+        Intent intent = new Intent(this, EntranceActivity.class);
+        startActivity(intent);
     }
 
     private void MainActivity(){

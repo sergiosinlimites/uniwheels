@@ -52,20 +52,13 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestEmail()
-                .build();
-
-        gsc = GoogleSignIn.getClient(this, gso);
-
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         System.out.println("HACE ESTOOOOO");
-        if(account != null){
-            String name = account.getDisplayName();
-            String mail = account.getEmail();
-            System.out.println("Nombre " + name);
-            System.out.println("Email " + mail);
-        }
+//        if(account != null){
+//            String name = account.getDisplayName();
+//            String mail = account.getEmail();
+//            System.out.println("Nombre " + name);
+//            System.out.println("Email " + mail);
+//        }
 
         logout = findViewById(R.id.logout);
         logout.setOnClickListener(new View.OnClickListener() {

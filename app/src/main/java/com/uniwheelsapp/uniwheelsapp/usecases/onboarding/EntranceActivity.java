@@ -2,6 +2,8 @@ package com.uniwheelsapp.uniwheelsapp.usecases.onboarding;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -31,16 +33,37 @@ import javax.annotation.Nullable;
 
 public class EntranceActivity extends AppCompatActivity {
 
-    Button registerButton;
+    private EntranceViewModel viewModel;
 
-    GoogleSignInOptions gso;
-    GoogleSignInClient gsc;
+    Button registerButton;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrance);
+        viewModel = new ViewModelProvider(this).get(EntranceViewModel.class
+        );
+
+        viewModel.getAccountData().observe(this, new Observer<GoogleSignInAccount>() {
+            @Override
+            public void onChanged(GoogleSignInAccount googleSignInAccount) {
+                if(googleSignInAccount != null){
+                    Log.d("ENTRADA", "NO ES NULOO " + googleSignInAccount.getEmail());
+                } else {
+                    Log.d("ENTRADA", "ES NULO");
+                }
+            }
+        });
+
+        viewModel.getLoggedStatus().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    RegisterActivity();
+                }
+            }
+        });
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -67,12 +90,6 @@ public class EntranceActivity extends AppCompatActivity {
         firebaseAnalytics.logEvent("InitScreen", bundleAnalytics);
 
         registerButton = findViewById(com.uniwheelsapp.uniwheelsapp.R.id.registerButton);
-        gso = new GoogleSignInOptions.Builder()
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        gsc = GoogleSignIn.getClient(this, gso);
-
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view){
@@ -81,16 +98,9 @@ public class EntranceActivity extends AppCompatActivity {
         });
     }
 
-//    public void onGoLogin(View view){
-//        Intent i = new Intent(this, HomeDriverActivity.class);
-//        startActivity(i);
-//        // Intent i = new Intent(this, LoginActivity.class);
-//        // startActivity(i);
-//    }
-
     public void SignIn(){
         Log.d("ABRE LOGIN", "LOGIN ");
-        Intent intent = gsc.getSignInIntent();
+        Intent intent = viewModel.entrance();
         startActivityForResult(intent, 100);
     }
 
@@ -99,23 +109,7 @@ public class EntranceActivity extends AppCompatActivity {
         Log.d("LOGIN", "HACE ESTOOOOO " + resultCode);
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100){
-            try {
-                Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                if(account != null){
-                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                    FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            Log.d("TASK REGISTER", task.getResult().getUser().toString());
-                            RegisterActivity();
-                        }
-                    });
-                }
-            } catch (ApiException e) {
-                e.printStackTrace();
-                Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
-            }
+            viewModel.updateAccount(data);
         }
     }
 

@@ -1,19 +1,87 @@
 package com.uniwheelsapp.uniwheelsapp.usecases.register;
 
+import android.app.Application;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-public class RegisterViewModel extends ViewModel {
-    // lectura y escritura
-    private MutableLiveData<String> resultado;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.uniwheelsapp.uniwheelsapp.models.Person;
+import com.uniwheelsapp.uniwheelsapp.providers.services.fiebase.FirebaseAuthService;
+import com.uniwheelsapp.uniwheelsapp.providers.services.fiebase.FirebaseDBService;
 
-     public RegisterViewModel(){
-         resultado = new MutableLiveData<>();
+import java.util.Map;
+
+public class RegisterViewModel extends AndroidViewModel {
+    private FirebaseAuthService authService;
+    private FirebaseDBService dbService;
+    private DocumentReference userDocRef = null;
+    private MutableLiveData<GoogleSignInAccount> accountData;
+    private MutableLiveData<Boolean> loggedStatus;
+    private MutableLiveData<Person> personMutableLiveData;
+
+    public MutableLiveData<GoogleSignInAccount> getAccountData() {
+        return accountData;
+    }
+
+    public MutableLiveData<Boolean> getLoggedStatus() {
+        return loggedStatus;
+    }
+
+    public MutableLiveData<Person> getPerson() {
+        return personMutableLiveData;
+    }
+
+    public RegisterViewModel(@NonNull Application application){
+         super(application);
+         authService = new FirebaseAuthService(application);
+         dbService = new FirebaseDBService();
+         accountData = authService.getAccountMutableLiveData();
+         loggedStatus = authService.getLoggedStatus();
+         personMutableLiveData = new MutableLiveData<>();
      }
 
-     // solo lectura
-     public LiveData<String> getResultado(){
-        return resultado;
-     }
+    public void setUserDocument(String document){
+        userDocRef = dbService.setReference("users", document);
+    }
+
+    public Task<DocumentSnapshot> getUserData(@Nullable String document){
+        if(userDocRef == null){
+            if(document == null){
+                return null;
+            }
+            setUserDocument(document);
+        }
+        return dbService.getData(userDocRef);
+    }
+
+    public Task<Void> updateUserDocument(String document, Map<String, Object> userObject){
+        if (userObject == null){
+            setUserDocument(document);
+        }
+        return dbService.updateData(userDocRef, userObject);
+    }
+
+    public void searchInDB(String document){
+        getUserData(document).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    Person persona = documentSnapshot.toObject(Person.class);
+                    personMutableLiveData.postValue(persona);
+                } else {
+                    Log.w("USER", "NO EXISTE");
+                }
+            }
+        });
+    }
+
 }
