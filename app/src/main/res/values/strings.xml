@@ -43,7 +43,19 @@
     <string name="home_plan">Planear</string>
     <string name="plane_travel_title">Planear un viaje</string>
     <string name="return_bottom">volver</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!-- DRIVER HOME -->
+    <string name="description_driver_home">Desde este panel podrás gestionar tu actividad en Uniwheels como conductor.</string>
+    <string name="plan_travel_driver_home">Planificar viaje</string>
+    <string name="plan_travel_description_driver_home">Consigue pasajeros anticipadamente</string>
+    <string name="review_request_driver_home">Revisa solicitudes</string>
+    <string name="review_request_description_driver_home">Revisa las solicitudes de los pasajeros. Concreta lugares de encuentro</string>
+    
+    <!-- ADMIN HOME -->
+    <string name="description_admin_home">Desde este panel podrás gestionar tu actividad en Uniwheels como administrador.</string>
+    <string name="disable_user_admin_home">Deshabilitar usuario</string>
+    <string name="disable_user_description_admin_home">Deshabilita un usuario que haya incumplido el reglamento de la plataforma</string>
+    <string name="review_driver_admin_home">Revisa conductores</string>
+    <string name="review_driver_description_admin_home">Revisa los datos del conductor y valida si adecuado para la plataforma</string>
+    <string name="review_vehicle_admin_home">Revisa vehículos</string>
+    <string name="review_vehicle_description_admin_home">Revisa los datos del vehículo para reconocer si se encuentra en buen estado</string>
 </resources>

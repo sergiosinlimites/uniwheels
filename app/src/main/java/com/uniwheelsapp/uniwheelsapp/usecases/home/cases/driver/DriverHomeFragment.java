@@ -1,15 +1,22 @@
 package com.uniwheelsapp.uniwheelsapp.usecases.home.cases.driver;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.uniwheelsapp.uniwheelsapp.R;
+import com.uniwheelsapp.uniwheelsapp.databinding.FragmentDriverHomeBinding;
+import com.uniwheelsapp.uniwheelsapp.models.Person;
+
+import java.io.Serializable;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,15 +26,8 @@ import com.uniwheelsapp.uniwheelsapp.R;
 public class DriverHomeFragment extends Fragment {
 
     private DriverHomeViewModel viewModel;
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private FragmentDriverHomeBinding binding;
+    private Person person;
 
     public DriverHomeFragment() {
         // Required empty public constructor
@@ -44,28 +44,42 @@ public class DriverHomeFragment extends Fragment {
     // TODO: Rename and change types and number of parameters
     public static DriverHomeFragment newInstance(String param1, String param2) {
         DriverHomeFragment fragment = new DriverHomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(DriverHomeViewModel.class);
-        // Inflate the layout for this fragment
+        binding = FragmentDriverHomeBinding.inflate(getActivity().getLayoutInflater());
+
+        Bundle data = getArguments();
+        if(data != null && data.getParcelable("person") != null){
+            person = (Person) data.getParcelable("person");
+            binding.welcomeText.setText("Bienvenido " + person.getNombre().toLowerCase(Locale.ROOT));
+        };
+
         View root = inflater.inflate(R.layout.fragment_driver_home, container, false);
+
+        binding.planTravelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+
+        binding.reviewRequestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         return root;
     }
 }

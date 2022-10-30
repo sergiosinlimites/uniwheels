@@ -1,11 +1,14 @@
 package com.uniwheelsapp.uniwheelsapp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.firestore.PropertyName;
 
 import java.util.Date;
 import java.util.List;
 
-public class Person {
+public class Person implements Parcelable {
     public static final String NAME_KEY = "nombre";
     public static final String LASTNAME_KEY = "apellido";
     public static final String ID_KEY = "cedula";
@@ -20,6 +23,7 @@ public class Person {
     public static final String VALIDCELLPHONE_KEY = "celularValidado";
     public static final String ACTIVE_KEY = "activo";
     public static final String DATE_KEY = "fechaCreacion";
+    public static final String USER_TYPE = "tipo";
 
     public Person(){}
 
@@ -37,6 +41,7 @@ public class Person {
     private Boolean celularValidado;
     private Boolean activo;
     private Date fechaCreacion;
+    private String tipo;
 
     public String getNombre() {
         return nombre;
@@ -149,5 +154,23 @@ public class Person {
 
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getTipo(){
+        return tipo;
+    }
+
+    public void setTipo(String tipo){
+        this.tipo = tipo;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+
     }
 }

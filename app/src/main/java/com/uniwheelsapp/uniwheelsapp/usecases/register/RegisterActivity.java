@@ -54,9 +54,11 @@ public class RegisterActivity extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
 
-    // Firebase Auth
-    GoogleSignInOptions gso;
-    GoogleSignInClient gsc;
+    private HashMap<String, Object> userObject;
+    enum UserTypes {
+        CONDUCTOR,
+        PASAJERO
+    }
 
     private Uri documentUrl;
 
@@ -66,7 +68,8 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(com.uniwheelsapp.uniwheelsapp.R.layout.activity_register);
+        setContentView(R.layout.activity_register);
+        userObject = new HashMap<>();
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
 
@@ -148,7 +151,6 @@ public class RegisterActivity extends AppCompatActivity {
      * Elimina la foto del documento
      */
     private void deletePhoto(){
-        HashMap<String, Object> userObject = new HashMap<>();
         List<String> personDocuments = new ArrayList<>();
         personDocuments.add("");
         userObject.put(Person.IDPHOTOS_KEY, (List<String>) personDocuments);
@@ -178,6 +180,7 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void onSelectDriver(View view){
         binding.driverSectionLayout.setVisibility(View.VISIBLE);
+        userObject.put(Person.USER_TYPE, UserTypes.CONDUCTOR.toString());
     }
 
     /**
@@ -186,6 +189,8 @@ public class RegisterActivity extends AppCompatActivity {
      */
     public void onSelectPassenger(View view){
         binding.driverSectionLayout.setVisibility(View.INVISIBLE);
+        userObject.put(Person.USER_TYPE, UserTypes.PASAJERO.toString());
+        Log.d("SELECCION", userObject.get(Person.USER_TYPE).toString());
     }
 
     @Override
@@ -255,13 +260,12 @@ public class RegisterActivity extends AppCompatActivity {
         if(nombre.isEmpty() || apellido.isEmpty() || direccion.isEmpty() || cellphone.toString().isEmpty() || identificacion.toString().isEmpty()){
             Toast.makeText(this, "No se puede continuar, faltan campos por llenar", Toast.LENGTH_SHORT).show();
         } else {
-            Map<String, Object> userData = new HashMap<>();
-            userData.put(Person.NAME_KEY, nombre);
-            userData.put(Person.LASTNAME_KEY, apellido);
-            userData.put(Person.ADDRESS_KEY, direccion);
-            userData.put(Person.CELLPHONE_KEY, cellphone);
-            userData.put(Person.ID_KEY, identificacion);
-            viewModel.updateUserDocument(email, userData).addOnCompleteListener(new OnCompleteListener<Void>() {
+            userObject.put(Person.NAME_KEY, nombre);
+            userObject.put(Person.LASTNAME_KEY, apellido);
+            userObject.put(Person.ADDRESS_KEY, direccion);
+            userObject.put(Person.CELLPHONE_KEY, cellphone);
+            userObject.put(Person.ID_KEY, identificacion);
+            viewModel.updateUserDocument(email, userObject).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     if (task.isSuccessful()) {
