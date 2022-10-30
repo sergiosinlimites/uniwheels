@@ -50,21 +50,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     private RegisterViewModel viewModel;
 
-    // Firebase Storage
-    StorageReference storageReference;
-    String storagePath = "documents/*";
-
     private static final int COD_SEL_IMAGE = 300;
-    private Uri documentUrl;
-    String photo = "photo";
 
-    ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
     // Firebase Auth
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
-    FirebaseAuth mAuth;
-    String userId;
+
+    private Uri documentUrl;
 
     // Fields
     String email;
@@ -76,6 +70,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register);
 
+        progressDialog = new ProgressDialog(this);
+
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class
         );
 
@@ -83,7 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onChanged(GoogleSignInAccount googleSignInAccount) {
                 if(googleSignInAccount != null){
-                    userId = googleSignInAccount.getId();
                     email = googleSignInAccount.getEmail();
                     checkValidity(email);
                 } else {
@@ -106,18 +101,26 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     setFields(person);
                     getImage(person);
-                    // MainActivity();
+                    //MainActivity();
+                }
+            }
+        });
+
+        viewModel.getIsLoading().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    progressDialog.setMessage("Cargando");
+                    progressDialog.show();
+                } else {
+                    progressDialog.dismiss();
                 }
             }
         });
 
         binding.driverSectionLayout.setVisibility(View.INVISIBLE);
 
-        progressDialog = new ProgressDialog(this);
-
-        storageReference = FirebaseStorage.getInstance().getReference();
-
-        binding.imageIdentificacion.setOnClickListener(new View.OnClickListener() {
+        binding.buttonUpdateImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 uploadPhoto();
@@ -130,13 +133,6 @@ public class RegisterActivity extends AppCompatActivity {
                 deletePhoto();
             }
         });
-
-//        // Google Connection
-//        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestEmail()
-//                .build();
-//
-//        gsc = GoogleSignIn.getClient(this, gso);
     }
 
     /**
@@ -155,8 +151,7 @@ public class RegisterActivity extends AppCompatActivity {
         HashMap<String, Object> userObject = new HashMap<>();
         List<String> personDocuments = new ArrayList<>();
         personDocuments.add("");
-        Log.d("PERSON", personDocuments.toArray().toString());
-        userObject.put(Person.IDPHOTOS_KEY, personDocuments.toArray());
+        userObject.put(Person.IDPHOTOS_KEY, (List<String>) personDocuments);
         viewModel.updateUserDocument(email, userObject);
         deletePhotoFromView();
         Toast.makeText(this, "Foto del documento eliminada", Toast.LENGTH_SHORT).show();
@@ -182,7 +177,6 @@ public class RegisterActivity extends AppCompatActivity {
      * @param view La vista
      */
     public void onSelectDriver(View view){
-        Log.d("BOTON", "SE HACE");
         binding.driverSectionLayout.setVisibility(View.VISIBLE);
     }
 
@@ -197,7 +191,6 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("IMAGEN", "requestCode - RESULT_OK: " + requestCode + " " + RESULT_OK);
         if(resultCode == RESULT_OK){
             if(requestCode == COD_SEL_IMAGE){
                 documentUrl = data.getData();
@@ -211,36 +204,7 @@ public class RegisterActivity extends AppCompatActivity {
      * @param photoUrl La url del documento a partir de la data del intent.
      */
     private void subirFoto(Uri photoUrl){
-        progressDialog.setMessage("Actualizando foto");
-        progressDialog.show();
-        String photoRoute = storagePath + "" + photo + "" + userId + "" + mAuth.getUid();
-        StorageReference reference = storageReference.child(photoRoute);
-        reference.putFile(photoUrl).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> taskSnapshot) {
-                if(taskSnapshot.isSuccessful()){
-                    Task<Uri> uriTask = taskSnapshot.getResult().getStorage().getDownloadUrl();
-                    while(!uriTask.isSuccessful()){
-                        if(uriTask.isSuccessful()){
-                            uriTask.addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    String downloadUri = uri.toString();
-                                    HashMap<String, Object> userObject = new HashMap<>();
-                                    Log.d("URI DOWNLOAD", downloadUri);
-                                    userObject.put(Person.IDPHOTOS_KEY, Arrays.asList(downloadUri));
-                                    viewModel.updateUserDocument(email, userObject);
-                                    Toast.makeText(RegisterActivity.this, "Foto actualizada", Toast.LENGTH_SHORT).show();
-                                    progressDialog.dismiss();
-                                }
-                            });
-                        }
-                    }
-                } else {
-                    Toast.makeText(RegisterActivity.this, "Error al cargar foto", Toast.LENGTH_SHORT);
-                }
-            }
-        });
+        viewModel.updatePhoto(photoUrl);
     }
 
     /**
@@ -251,7 +215,7 @@ public class RegisterActivity extends AppCompatActivity {
         binding.signUpEmail.setText(person.getEmail() != null ? person.getEmail() : email);
         binding.signupNameInput.setText(person.getNombre());
         binding.signupLastNameInput.setText(person.getApellido());
-        binding.signupCellphoneInput.setText(person.getDireccion());
+        binding.signupAddressInput.setText(person.getDireccion());
         binding.signupCellphoneInput.setText(person.getCelular() != null ? person.getCelular().toString() : "");
         binding.signupIdInput.setText(person.getCedula() != null ? person.getCedula().toString() : "");
     }
@@ -289,7 +253,6 @@ public class RegisterActivity extends AppCompatActivity {
         Number identificacion = binding.signupIdInput.getText() != null ? Integer.parseInt(binding.signupIdInput.getText().toString()) : null;
 
         if(nombre.isEmpty() || apellido.isEmpty() || direccion.isEmpty() || cellphone.toString().isEmpty() || identificacion.toString().isEmpty()){
-            Log.w("ERROR", "No se puede continuar");
             Toast.makeText(this, "No se puede continuar, faltan campos por llenar", Toast.LENGTH_SHORT).show();
         } else {
             Map<String, Object> userData = new HashMap<>();

@@ -28,6 +28,7 @@ public class FirebaseAuthService extends Service {
     private GoogleSignInOptions gso;
     private GoogleSignInClient gsc;
     private GoogleSignInAccount account;
+    private FirebaseAuth mAuth;
 
     private MutableLiveData<GoogleSignInAccount> accountMutableLiveData;
     private MutableLiveData<Boolean> loggedStatus;
@@ -53,6 +54,10 @@ public class FirebaseAuthService extends Service {
         if(account != null){
             accountMutableLiveData.postValue(account);
         }
+    }
+
+    public String getUid(){
+        return FirebaseAuth.getInstance().getUid();
     }
 
     public Intent signIn(){
