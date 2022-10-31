@@ -43,6 +43,50 @@ public class Person implements Parcelable {
     private Date fechaCreacion;
     private String tipo;
 
+    protected Person(Parcel in) {
+        nombre = in.readString();
+        apellido = in.readString();
+        if (in.readByte() == 0) {
+            cedula = null;
+        } else {
+            cedula = in.readInt();
+        }
+        email = in.readString();
+        if (in.readByte() == 0) {
+            celular = null;
+        } else {
+            celular = in.readInt();
+        }
+        foto = in.readString();
+        fotosCedula = in.createStringArrayList();
+        direccion = in.readString();
+        if (in.readByte() == 0) {
+            calificacion = null;
+        } else {
+            calificacion = in.readInt();
+        }
+        byte tmpHabilitado = in.readByte();
+        habilitado = tmpHabilitado == 0 ? null : tmpHabilitado == 1;
+        password = in.readString();
+        byte tmpCelularValidado = in.readByte();
+        celularValidado = tmpCelularValidado == 0 ? null : tmpCelularValidado == 1;
+        byte tmpActivo = in.readByte();
+        activo = tmpActivo == 0 ? null : tmpActivo == 1;
+        tipo = in.readString();
+    }
+
+    public static final Creator<Person> CREATOR = new Creator<Person>() {
+        @Override
+        public Person createFromParcel(Parcel in) {
+            return new Person(in);
+        }
+
+        @Override
+        public Person[] newArray(int size) {
+            return new Person[size];
+        }
+    };
+
     public String getNombre() {
         return nombre;
     }
@@ -171,6 +215,34 @@ public class Person implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-
+        parcel.writeString(nombre);
+        parcel.writeString(apellido);
+        if (cedula == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(cedula);
+        }
+        parcel.writeString(email);
+        if (celular == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(celular);
+        }
+        parcel.writeString(foto);
+        parcel.writeStringList(fotosCedula);
+        parcel.writeString(direccion);
+        if (calificacion == null) {
+            parcel.writeByte((byte) 0);
+        } else {
+            parcel.writeByte((byte) 1);
+            parcel.writeInt(calificacion);
+        }
+        parcel.writeByte((byte) (habilitado == null ? 0 : habilitado ? 1 : 2));
+        parcel.writeString(password);
+        parcel.writeByte((byte) (celularValidado == null ? 0 : celularValidado ? 1 : 2));
+        parcel.writeByte((byte) (activo == null ? 0 : activo ? 1 : 2));
+        parcel.writeString(tipo);
     }
 }

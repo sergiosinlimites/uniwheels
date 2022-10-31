@@ -3,17 +3,21 @@ package com.uniwheelsapp.uniwheelsapp.usecases.home.cases.driver;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.uniwheelsapp.uniwheelsapp.R;
 import com.uniwheelsapp.uniwheelsapp.databinding.FragmentDriverHomeBinding;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
+import com.uniwheelsapp.uniwheelsapp.usecases.plannedTravels.PlannedTravelsActivity;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -57,29 +61,34 @@ public class DriverHomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         viewModel = new ViewModelProvider(this).get(DriverHomeViewModel.class);
-        binding = FragmentDriverHomeBinding.inflate(getActivity().getLayoutInflater());
+        binding = FragmentDriverHomeBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
 
         Bundle data = getArguments();
         if(data != null && data.getParcelable("person") != null){
             person = (Person) data.getParcelable("person");
+            Log.d("entra ", "aqui");
             binding.welcomeText.setText("Bienvenido " + person.getNombre().toLowerCase(Locale.ROOT));
         };
 
-        View root = inflater.inflate(R.layout.fragment_driver_home, container, false);
+        setOnClickListeners();
+        return root;
+    }
 
+    private void setOnClickListeners(){
         binding.planTravelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getActivity().getApplicationContext(), PlannedTravelsActivity.class);
+                intent.putExtra("person", person);
+                startActivity(intent);
             }
         });
 
         binding.reviewRequestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
             }
         });
-
-        return root;
     }
 }
