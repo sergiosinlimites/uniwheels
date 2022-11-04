@@ -8,7 +8,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseDBService extends Service {
@@ -28,6 +30,11 @@ public class FirebaseDBService extends Service {
 
     public DocumentReference setReference(String path, String document){
         return db.collection(path).document(document);
+    }
+
+    public Query searchByField(String path, String fieldName, String fieldValue){
+        return db.collection(path)
+            .whereEqualTo(fieldName, fieldValue);
     }
 
     public Task<DocumentSnapshot> getData(DocumentReference documentReference){

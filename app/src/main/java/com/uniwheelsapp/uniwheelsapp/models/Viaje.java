@@ -4,24 +4,37 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Viaje {
-    private Person conductor;
-    private ArrayList<Person> pasajeros;
+    private String documentId;
+    private String conductor;
+    private ArrayList<String> pasajeros;
     private String puntoSalida;
     private String puntoLlegada;
     private Date fechaSalida;
     private Date fechaLlegada;
-    private Number tarifa;
-    private Number cupos;
-    private Number tiempoEstimado;
+    private int tarifa;
+    private int cupos;
+    private int tiempoEstimado;
     private String estadoViaje;
     private Date fechaCreacion;
 
-    public Person getConductor() {
+    public String getDocumentId(){
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId){
+        this.documentId = documentId;
+    }
+
+    public String getConductor() {
         return conductor;
     }
 
-    public ArrayList<Person> getPasajeros() {
-        return pasajeros;
+    public ArrayList<String> getPasajeros() {
+        if(pasajeros != null){
+            return pasajeros;
+        } else {
+            return new ArrayList<String>();
+        }
     }
 
     public String getPuntoSalida() {
@@ -40,15 +53,15 @@ public class Viaje {
         return fechaLlegada;
     }
 
-    public Number getTarifa() {
+    public int getTarifa() {
         return tarifa;
     }
 
-    public Number getCupos() {
+    public int getCupos() {
         return cupos;
     }
 
-    public Number getTiempoEstimado() {
+    public int getTiempoEstimado() {
         return tiempoEstimado;
     }
 
@@ -60,11 +73,11 @@ public class Viaje {
         return fechaCreacion;
     }
 
-    public void setConductor(Person conductor) {
+    public void setConductor(String conductor) {
         this.conductor = conductor;
     }
 
-    public void setPasajeros(ArrayList<Person> pasajeros) {
+    public void setPasajeros(ArrayList<String> pasajeros) {
         this.pasajeros = pasajeros;
     }
 
@@ -84,15 +97,15 @@ public class Viaje {
         this.fechaLlegada = fechaLlegada;
     }
 
-    public void setTarifa(Number tarifa) {
+    public void setTarifa(int tarifa) {
         this.tarifa = tarifa;
     }
 
-    public void setCupos(Number cupos) {
+    public void setCupos(int cupos) {
         this.cupos = cupos;
     }
 
-    public void setTiempoEstimado(Number tiempoEstimado) {
+    public void setTiempoEstimado(int tiempoEstimado) {
         this.tiempoEstimado = tiempoEstimado;
     }
 

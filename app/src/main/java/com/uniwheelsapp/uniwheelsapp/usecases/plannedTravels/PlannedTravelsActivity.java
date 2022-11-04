@@ -35,6 +35,8 @@ public class PlannedTravelsActivity extends AppCompatActivity {
         Log.d("LA PERSONA", person.getNombre().toString());
         viewModel = new ViewModelProvider(this).get(PlannedTravelsViewModel.class);
 
+        viewModel.getTravelsByPerson(person);
+
         startFragment();
     }
 
