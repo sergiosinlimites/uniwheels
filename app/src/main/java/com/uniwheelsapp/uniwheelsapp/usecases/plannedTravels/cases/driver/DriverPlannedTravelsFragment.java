@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,6 +25,9 @@ import com.uniwheelsapp.uniwheelsapp.databinding.FragmentDriverPlannedTravelsBin
 import com.uniwheelsapp.uniwheelsapp.models.Person;
 import com.uniwheelsapp.uniwheelsapp.models.Viaje;
 import com.uniwheelsapp.uniwheelsapp.usecases.home.cases.driver.DriverHomeViewModel;
+import com.uniwheelsapp.uniwheelsapp.usecases.maps.MapsActivity;
+import com.uniwheelsapp.uniwheelsapp.usecases.newTravel.NewTravelActivity;
+import com.uniwheelsapp.uniwheelsapp.usecases.newTravel.NewTravelViewModel;
 
 import java.util.ArrayList;
 
@@ -44,6 +48,12 @@ public class DriverPlannedTravelsFragment extends Fragment implements PlannedTra
         viewModel = new ViewModelProvider(this).get(DriverPlannedTravelsViewModel.class);
         binding = FragmentDriverPlannedTravelsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        binding.newTravelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createNewTravel();
+            }
+        });
         person = (Person) getArguments().getParcelable("person");
         startRecyclerView();
 
@@ -81,6 +91,12 @@ public class DriverPlannedTravelsFragment extends Fragment implements PlannedTra
                     }
                 });
         alerta.show();
+    }
+
+    public void createNewTravel(){
+        Intent intent = new Intent(getActivity().getApplicationContext(), NewTravelActivity.class);
+        intent.putExtra("person", person);
+        startActivity(intent);
     }
 
     @Override

@@ -14,4 +14,13 @@
         <!-- Customize your theme here. -->
         <item name="android:fontFamily">@font/montserrat_regular</item>
     </style>
+
+    <style name="Theme.UniwheelsApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.UniwheelsApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.UniwheelsApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

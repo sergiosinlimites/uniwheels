@@ -12,6 +12,22 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.UniwheelsApp"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+
+        <activity
+            android:name=".usecases.maps.MapsActivity"
+            android:exported="false"
+            android:label="@string/title_activity_maps" />
+        <activity
+            android:name=".usecases.newTravel.NewTravelActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".usecases.plannedTravels.PlannedTravelsActivity"
             android:exported="false">

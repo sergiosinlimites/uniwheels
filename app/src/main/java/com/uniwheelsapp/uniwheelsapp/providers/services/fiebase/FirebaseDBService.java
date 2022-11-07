@@ -10,7 +10,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class FirebaseDBService extends Service {
@@ -43,6 +42,14 @@ public class FirebaseDBService extends Service {
 
     public Task<Void> updateData(DocumentReference documentReference, Map<String, Object> data){
         return documentReference.update(data);
+    }
+
+    public Task<Void> createDataWithId(String path, String document, Object data){
+        return db.collection(path).document(document).set(data);
+    }
+
+    public Task<DocumentReference> createDataWithoutId(String path, Object data){
+        return db.collection(path).add(data);
     }
 
 }

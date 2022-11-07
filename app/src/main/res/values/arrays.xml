@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="tiposViajes">
+        <item>Selecciona un tipo de viaje</item>
+        <item>Hogar a universidad</item>
+        <item>Universidad a hogar</item>
+    </string-array>
+
+    <string-array name="localidades">
+        <item>Selecciona la localidad</item>
+        <item>Usaquén</item>
+        <item>Chapinero</item>
+        <item>Santa Fe</item>
+        <item>San Cristóbal</item>
+        <item>Usme</item>
+        <item>Tunjuelito</item>
+        <item>Bosa</item>
+        <item>Kennedy</item>
+        <item>Fontibón</item>
+        <item>Engativá</item>
+        <item>Suba</item>
+        <item>Barrios Unidos</item>
+        <item>Teusaquillo</item>
+        <item>Los Mártires</item>
+        <item>Antonio Nariño</item>
+        <item>Puente Aranda</item>
+        <item>La Candelaria</item>
+        <item>Rafael Uribe Uribe</item>
+        <item>Ciudad Bolívar</item>
+        <item>Sumapaz</item>
+    </string-array>
+
+    <string-array name="upzsDefault">
+        <item>Selecciona la UPZ</item>
+    </string-array>
+
+    <string-array name="barriosDefault">
+        <item>Selecciona el barrio</item>
+    </string-array>
+
+    <string-array name="upz_localidad_usaquen">
+        <item>Selecciona la UPZ</item>
+        <item>Paseo de Los Libertadores</item>
+        <item>Verbenal</item>
+        <item>La Uribe</item>
+        <item>San Cristóbal Norte</item>
+        <item>Toberín</item>
+        <item>Los Cedros</item>
+        <item>Usaquén</item>
+        <item>Country Club</item>
+        <item>Santa Bárbara</item>
+    </string-array>
+
+    <string-array name="barrios_upz_paseo_de_los_libertadores">
+        <item>Selecciona el barrio</item>
+        <item>Canaima</item><item>La Floresta de La Sabana yTorca</item>
+    </string-array>
+
+    <string-array name="barrios_upz_verbenal">
+        <item>Altos de Serrezuela</item><item>Balcones de Vista Hermosa</item><item>Balmoral Norte</item>
+        <item>Buenavista</item><item>Chaparral</item><item>El Codito</item><item>El Refugio de San Antonio</item><item>El Verbenal</item><item>Horizontes</item><item>La Estrellita</item><item>La Frontera</item><item>La Llanurita</item><item>Los Consuelos</item><item>Marantá</item><item>Maturín</item><item>Medellín</item><item>Mirador del Norte</item><item>Nuevo Horizonte</item><item>San Antonio Norte</item><item>Santandersito</item><item>Tibabita</item><item>Viña del Mar</item>
+    </string-array>
+
+    <string-array name="barrios_upz_la_uribe">
+        <item>Bosque de San Antonio</item><item>Conjunto Camino del Palmar</item><item>El Pite</item><item>El Redil</item><item>La Cita</item><item>La Granja Norte</item><item>La Uribe</item><item>Los Naranjos</item><item>San Juan Bosco</item><item>Urbanización Los Laureles</item>
+    </string-array>
+
+    <string-array name="universidadesBogota">
+        <item>Selecciona la universidad</item>
+        <item>Universidad Nacional de Colombia, Sede Bogotá</item>
+        <item>Pontificia Universidad Javeriana</item>
+    </string-array>
+
+</resources>

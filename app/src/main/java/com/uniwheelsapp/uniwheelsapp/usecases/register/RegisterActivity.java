@@ -96,8 +96,8 @@ public class RegisterActivity extends AppCompatActivity {
                 if(
                     person.getNombre().isEmpty() ||
                     person.getApellido().isEmpty() ||
-                    person.getCedula() == null ||
-                    person.getCelular() == null
+                    person.getCedula() < 1 ||
+                    person.getCelular() < 1
                 ) {
                     setFields(person);
                     getImage(person);
@@ -221,8 +221,8 @@ public class RegisterActivity extends AppCompatActivity {
         binding.signupNameInput.setText(person.getNombre());
         binding.signupLastNameInput.setText(person.getApellido());
         binding.signupAddressInput.setText(person.getDireccion());
-        binding.signupCellphoneInput.setText(person.getCelular() != null ? person.getCelular().toString() : "");
-        binding.signupIdInput.setText(person.getCedula() != null ? person.getCedula().toString() : "");
+        binding.signupCellphoneInput.setText(person.getCelular() > 1 ? String.valueOf(person.getCelular()) : "");
+        binding.signupIdInput.setText(person.getCedula() > 1 ? String.valueOf(person.getCedula()) : "");
     }
 
     /**

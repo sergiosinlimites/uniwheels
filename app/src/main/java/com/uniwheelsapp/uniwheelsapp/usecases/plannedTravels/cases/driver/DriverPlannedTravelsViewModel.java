@@ -33,7 +33,7 @@ public class DriverPlannedTravelsViewModel extends AndroidViewModel {
     }
 
     public void getTravelsByDriver(PlannedTravelsAdapter adapter, String driverEmail){
-        dbService.searchByField("viajes", "conductor", driverEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        dbService.searchByField("viajes", "conductor.correo", driverEmail).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){

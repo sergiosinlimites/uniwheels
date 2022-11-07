@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            tools:context=".usecases.newTravel.NewTravelActivity"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ingresa los datos de tu nuevo viaje" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tipoViaje"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:padding="6dp"
+                    android:text="Tipo de viaje*"
+                    android:textAlignment="center"
+                    android:textColor="@color/green"
+                    android:textSize="18sp" />
+
+                <Spinner
+                    android:id="@+id/tipoViajeSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:contentDescription="Selecciona la localidad" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/layoutHogar"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/lugarText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Ingresa los datos del lugar"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/localidadString"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:padding="6dp"
+                        android:text="Localidad*"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/green"
+                        android:textSize="18sp" />
+
+                    <Spinner
+                        android:id="@+id/localidadSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:contentDescription="Selecciona la localidad" />
+
+                    <TextView
+                        android:id="@+id/upzString"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:padding="6dp"
+                        android:text="UPZ*"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/green"
+                        android:textSize="18sp" />
+
+                    <Spinner
+                        android:id="@+id/upzSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:contentDescription="Selecciona la UPZ" />
+
+                    <TextView
+                        android:id="@+id/barrioString"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:padding="6dp"
+                        android:text="Barrio*"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/green"
+                        android:textSize="18sp" />
+
+                    <Spinner
+                        android:id="@+id/barrioSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:contentDescription="Selecciona el barrio" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/layoutUniversidad"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/universidadText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:text="Ingresa los datos del lugar"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/universidadString"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:padding="6dp"
+                        android:text="Universidad*"
+                        android:textAlignment="center"
+                        android:textColor="@color/green"
+                        android:textSize="18sp" />
+
+                    <Spinner
+                        android:id="@+id/universidadSpinner"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:contentDescription="Selecciona la universidad" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView23"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ingresa los datos de salida"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/departureDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="DD/MM/AAAA"
+                            android:inputType="date" />
+
+                        <ImageView
+                            android:id="@+id/departureCalendarButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@android:drawable/ic_menu_today" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/departureTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="HH:mm"
+                            android:inputType="time" />
+
+                        <ImageView
+                            android:id="@+id/departureTimeButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@android:drawable/ic_menu_recent_history" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView24"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ingresa los datos de llegada"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/arrivalDate"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="DD/MM/AAAA"
+                            android:inputType="date" />
+
+                        <ImageView
+                            android:id="@+id/arrivalCalendarButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@android:drawable/ic_menu_today" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/arrivalTime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:ems="10"
+                            android:hint="HH:mm"
+                            android:inputType="time" />
+
+                        <ImageView
+                            android:id="@+id/arrivalTimeButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            app:srcCompat="@android:drawable/ic_menu_recent_history" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cupos disponibles"
+                        android:textAlignment="center"
+                        android:id="@+id/cuposString"
+                        android:textColor="@color/green"
+                        android:textSize="18sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/restarCupos"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="0"
+                            android:text="-" />
+
+                        <TextView
+                            android:id="@+id/cantidadCupos"
+                            android:layout_width="100dp"
+                            android:layout_height="50dp"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:text="3"
+                            android:textSize="18sp" />
+
+                        <Button
+                            android:id="@+id/sumarCupos"
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:text="+" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tarifa"
+                        android:id="@+id/tarifaString"
+                        android:textAlignment="center"
+                        android:textColor="@color/green"
+                        android:textSize="18sp" />
+
+                    <EditText
+                        android:id="@+id/tarifa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/finishPlan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Planear" />
+
+            <!--        <fragment-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:name="com.uniwheelsapp.uniwheelsapp.usecases.maps.setLocation.SetLocationFragment"-->
+            <!--            android:id="@+id/mapsFragment"/>-->
+
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

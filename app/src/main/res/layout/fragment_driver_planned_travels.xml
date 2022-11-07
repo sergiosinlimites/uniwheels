@@ -12,5 +12,17 @@
             android:id="@+id/listaViajes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/newTravelButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginEnd="@dimen/fab_margin"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Nuevo viaje"
+            android:backgroundTint="@color/green"
+            app:srcCompat="@android:drawable/ic_input_add" />
+
     </FrameLayout>
 </layout>

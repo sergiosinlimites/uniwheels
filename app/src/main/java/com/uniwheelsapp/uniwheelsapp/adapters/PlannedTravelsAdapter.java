@@ -19,6 +19,8 @@ public class PlannedTravelsAdapter extends RecyclerView.Adapter<PlannedTravelsAd
     private ArrayList<Viaje> viajesPlaneados;
     private PlannedTravelsClickListener clickListener;
 
+    private final String HOGAR_UNI = "Hogar a universidad";
+    private final String UNI_HOGAR = "Universidad a hogar";
 
     public PlannedTravelsAdapter(ArrayList<Viaje> viajesPlaneados, PlannedTravelsClickListener clickListener){
         this.viajesPlaneados = viajesPlaneados;
@@ -45,13 +47,20 @@ public class PlannedTravelsAdapter extends RecyclerView.Adapter<PlannedTravelsAd
     @Override
     public void onBindViewHolder(@NonNull ViewHolderPlannedTravels holder, int position) {
         Viaje viaje = viajesPlaneados.get(position);
-        holder.travelDay.setText(viaje.getFechaLlegada() != null ? viaje.getFechaLlegada().toString() : "No definido");
+        holder.travelDay.setText(viaje.getLlegada() != null ? viaje.getLlegada().toString() : "No definido");
         holder.travelQuota.setText(String.valueOf(viaje.getCupos()));
         holder.travelPassengersNumber.setText(String.valueOf(viaje.getPasajeros().size()));
-        holder.travelDeparturePlace.setText(viaje.getPuntoSalida() != null ? viaje.getPuntoSalida() : "No definido");
-        holder.travelDepartureTime.setText(viaje.getFechaSalida() != null ? viaje.getFechaSalida().toString() : "No definido");
-        holder.travelArrivalPlace.setText(viaje.getPuntoLlegada() != null ? viaje.getPuntoLlegada() : "No definido");
-        holder.travelArrivalTime.setText(viaje.getFechaLlegada() != null ? viaje.getFechaLlegada().toString() : "No definido");
+
+        holder.travelDepartureTime.setText(viaje.getSalida() != null ? viaje.getSalida().toString() : "No definido");
+        holder.travelArrivalTime.setText(viaje.getLlegada() != null ? viaje.getLlegada().toString() : "No definido");
+
+        if(viaje.getTipoViaje().equals(UNI_HOGAR)){
+            holder.travelDeparturePlace.setText(viaje.getUniversidad() != null ? viaje.getUniversidad().getNombre() : "No definido");
+            holder.travelArrivalPlace.setText(viaje.getLugar() != null ? viaje.getLugar().getBarrio() + ", " + viaje.getLugar().getUpz() + ", " + viaje.getLugar().getLocalidad() : "No definido");
+        } else if (viaje.getTipoViaje().equals(HOGAR_UNI)){
+            holder.travelArrivalPlace.setText(viaje.getUniversidad() != null ? viaje.getUniversidad().getNombre() : "No definido");
+            holder.travelDeparturePlace.setText(viaje.getLugar() != null ? viaje.getLugar().getBarrio() + ", " + viaje.getLugar().getUpz() + ", " + viaje.getLugar().getLocalidad() : "No definido");
+        }
 
         holder.cancelTravel.setOnClickListener(new View.OnClickListener() {
             @Override
