@@ -13,6 +13,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
 import com.uniwheelsapp.uniwheelsapp.providers.services.fiebase.FirebaseAuthService;
 import com.uniwheelsapp.uniwheelsapp.providers.services.fiebase.FirebaseDBService;
@@ -59,15 +61,18 @@ public class MainViewModel extends AndroidViewModel {
         return dbService.getData(userDocRef);
     }
 
-    public void searchInDB(String document){
-        getUserData(document).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+    public void listenForChanges(String document){
+        setUserDocument(document);
+        userDocRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if (documentSnapshot.exists()) {
+            public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
+                if(error != null){
+                    Log.e("ERROR OBTENIENDO DATOS", error.getMessage());
+                    return;
+                }
+                if(documentSnapshot != null && documentSnapshot.exists()){
                     Person persona = documentSnapshot.toObject(Person.class);
                     personMutableLiveData.postValue(persona);
-                } else {
-                    Log.w("USER", "NO EXISTE");
                 }
             }
         });

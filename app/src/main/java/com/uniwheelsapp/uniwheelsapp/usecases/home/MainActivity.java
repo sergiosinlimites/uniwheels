@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -22,10 +23,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.uniwheelsapp.uniwheelsapp.PlanTripsActivity;
 import com.uniwheelsapp.uniwheelsapp.R;
 import com.uniwheelsapp.uniwheelsapp.databinding.ActivityMainBinding;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
+import com.uniwheelsapp.uniwheelsapp.models.Preferences;
 import com.uniwheelsapp.uniwheelsapp.usecases.home.cases.admin.AdminHomeFragment;
 import com.uniwheelsapp.uniwheelsapp.usecases.home.cases.driver.DriverHomeFragment;
 import com.uniwheelsapp.uniwheelsapp.usecases.home.cases.passenger.PassengerHomeFragment;
@@ -40,12 +43,16 @@ public class MainActivity extends AppCompatActivity {
     private MainViewModel viewModel;
     private ActivityMainBinding binding;
 
+    private Person person;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
+        getUserInfo();
 
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {
@@ -82,15 +89,10 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getPersonMutableLiveData().observe(this, new Observer<Person>() {
             @Override
             public void onChanged(Person person) {
+                setProfileInfo(person);
                 FragmentManager manager = getSupportFragmentManager();
-                Log.d("TIPO DE USUARIO", person.getTipo().toString());
                 if (person.getTipo().toString().equals("CONDUCTOR")){
-                    Log.d("CONDUCTOR", "ENTRA");
-                    Bundle bundle = new Bundle();
-                    bundle.putString("prueba", "funciona");
-                    bundle.putParcelable("person", (Parcelable) person);
                     DriverHomeFragment driverHomeFragment = new DriverHomeFragment();
-                    driverHomeFragment.setArguments(bundle);
                     manager.beginTransaction().replace(binding.replaceableLayout.getId(), driverHomeFragment).commit();
                 } else if (person.getTipo().toString().equals("PASAJERO")){
                     PassengerHomeFragment passengerHomeFragment = new PassengerHomeFragment();
@@ -103,8 +105,25 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setProfileInfo(Person person) {
+        Gson gson = new Gson();
+        String personJSON = gson.toJson(person);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Preferences.USER_INFO, personJSON);
+        editor.commit();
+        Log.d("HACE COMMIT", personJSON);
+    }
+
+    private void getUserInfo() {
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
+        person = gson.fromJson(personString, Person.class);
+    }
+
     private void checkValidity(String email){
-        viewModel.searchInDB(email);
+        viewModel.listenForChanges(email);
     }
 
     private void GoBack(){

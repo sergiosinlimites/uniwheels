@@ -83,8 +83,9 @@ public class FirebaseAuthService extends Service {
                 });
             }
         } catch (ApiException e) {
+            e.getCause();
             e.printStackTrace();
-            Toast.makeText(this, "", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplication().getApplicationContext(), "", Toast.LENGTH_SHORT).show();
         }
     }
 

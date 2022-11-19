@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,11 +30,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 import com.uniwheelsapp.uniwheelsapp.R;
 import com.uniwheelsapp.uniwheelsapp.RegisterInfo;
 import com.uniwheelsapp.uniwheelsapp.databinding.ActivityRegisterBinding;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
+import com.uniwheelsapp.uniwheelsapp.models.Preferences;
 import com.uniwheelsapp.uniwheelsapp.usecases.home.MainActivity;
 import com.uniwheelsapp.uniwheelsapp.usecases.onboarding.EntranceActivity;
 import com.uniwheelsapp.uniwheelsapp.usecases.onboarding.EntranceViewModel;
@@ -75,6 +78,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
 
+        getUserInfo();
+
         viewModel = new ViewModelProvider(this).get(RegisterViewModel.class
         );
 
@@ -102,9 +107,8 @@ public class RegisterActivity extends AppCompatActivity {
                     setFields(person);
                     getImage(person);
                 } else {
-                    setFields(person);
-                    getImage(person);
-                    //MainActivity();
+                    savePersonInfo(person);
+                    MainActivity();
                 }
             }
         });
@@ -136,6 +140,26 @@ public class RegisterActivity extends AppCompatActivity {
                 deletePhoto();
             }
         });
+    }
+
+    private void getUserInfo() {
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
+        Person person = gson.fromJson(personString, Person.class);
+        if(person != null){
+            if(person.getActivo()){
+                MainActivity();
+            }
+        }
+    }
+
+    private void savePersonInfo(Person person) {
+        Gson gson = new Gson();
+        String personJSON = gson.toJson(person);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Preferences.USER_INFO, personJSON).commit();
     }
 
     /**

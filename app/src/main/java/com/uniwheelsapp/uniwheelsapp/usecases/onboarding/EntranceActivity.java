@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -26,7 +27,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 import com.uniwheelsapp.uniwheelsapp.R;
+import com.uniwheelsapp.uniwheelsapp.models.Person;
+import com.uniwheelsapp.uniwheelsapp.models.Preferences;
+import com.uniwheelsapp.uniwheelsapp.usecases.home.MainActivity;
 import com.uniwheelsapp.uniwheelsapp.usecases.register.RegisterActivity;
 
 import javax.annotation.Nullable;
@@ -42,8 +47,9 @@ public class EntranceActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrance);
-        viewModel = new ViewModelProvider(this).get(EntranceViewModel.class
-        );
+        viewModel = new ViewModelProvider(this).get(EntranceViewModel.class);
+
+        getUserInfo();
 
         viewModel.getAccountData().observe(this, new Observer<GoogleSignInAccount>() {
             @Override
@@ -84,10 +90,10 @@ public class EntranceActivity extends AppCompatActivity {
                 });
 
 
-        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle bundleAnalytics = new Bundle();
-        bundleAnalytics.putString("message", "Integración con firebase");
-        firebaseAnalytics.logEvent("InitScreen", bundleAnalytics);
+//        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//        Bundle bundleAnalytics = new Bundle();
+//        bundleAnalytics.putString("message", "Integración con firebase");
+//        firebaseAnalytics.logEvent("InitScreen", bundleAnalytics);
 
         registerButton = findViewById(com.uniwheelsapp.uniwheelsapp.R.id.registerButton);
         registerButton.setOnClickListener(new View.OnClickListener() {
@@ -96,6 +102,24 @@ public class EntranceActivity extends AppCompatActivity {
                 SignIn();
             }
         });
+    }
+
+    private void getUserInfo() {
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
+        Person person = gson.fromJson(personString, Person.class);
+        if(person != null){
+            if(person.getActivo()){
+                goToMainActivity();
+            }
+        }
+    }
+
+    private void goToMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        finish();
+        startActivity(intent);
     }
 
     public void SignIn(){

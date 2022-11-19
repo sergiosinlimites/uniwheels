@@ -42,127 +42,130 @@
             android:layout_height="148dp"
             tools:srcCompat="@tools:sample/avatars" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="369dp"
-        android:layout_height="331dp"
-        android:layout_marginTop="237dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/linearLayout6">
-
-        <EditText
-            android:id="@+id/nombre"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat_regular"
-            android:inputType="textPersonName"
-            android:text="Nombres"
-            android:textColor="@color/light_green"
-            android:textSize="18sp"
-            android:textStyle="normal" />
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/apellidos"
+            <TextView
+                android:id="@+id/nombre"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:ems="10"
+                android:fontFamily="@font/montserrat_regular"
+                android:inputType="textPersonName"
+                android:text="Nombres"
+                android:textColor="@color/light_green"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/apellido"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:ems="10"
+                android:fontFamily="@font/montserrat_regular"
+                android:inputType="textPersonName"
+                android:text="Apellidos"
+                android:textColor="@color/light_green"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/id"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:ems="10"
+                android:fontFamily="@font/montserrat_regular"
+                android:inputType="textPersonName"
+                android:text="identificacion"
+                android:textColor="@color/light_green"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:id="@+id/correo"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:ems="10"
+                android:fontFamily="@font/montserrat_regular"
+                android:inputType="textPersonName"
+                android:text="Correo"
+                android:textColor="@color/light_green"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/celular"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:ems="10"
+                android:fontFamily="@font/montserrat_regular"
+                android:inputType="textPersonName"
+                android:text="Celular"
+                android:textColor="@color/light_green"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <EditText
+                android:id="@+id/direccion"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:ems="10"
+                android:fontFamily="@font/montserrat_regular"
+                android:inputType="textPersonName"
+                android:text="DIreccion"
+                android:textColor="@color/light_green"
+                android:textSize="18sp"
+                android:textStyle="normal" />
+
+            <Button
+                android:id="@+id/ModificarPerfil"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/green"
+                android:onClick="onPlanRide"
+                android:text="Modificar Perfil"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="20dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat_regular"
-            android:inputType="textPersonName"
-            android:text="Apellidos"
-            android:textColor="@color/light_green"
-            android:textSize="18sp"
-            android:textStyle="normal" />
+            android:layout_height="wrap_content"
+            android:id="@+id/replaceableLayout"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/id"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat_regular"
-            android:inputType="textPersonName"
-            android:text="identificacion"
-            android:textColor="@color/light_green"
-            android:textSize="18sp"
-            android:textStyle="normal" />
 
-        <EditText
-            android:id="@+id/correo"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat_regular"
-            android:inputType="textPersonName"
-            android:text="Correo"
-            android:textColor="@color/light_green"
-            android:textSize="18sp"
-            android:textStyle="normal" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/celular"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat_regular"
-            android:inputType="textPersonName"
-            android:text="Celular"
-            android:textColor="@color/light_green"
-            android:textSize="18sp"
-            android:textStyle="normal" />
+        <LinearLayout
+            android:layout_width="318dp"
+            android:layout_height="109dp"
+            android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/direccion"
-            android:layout_width="match_parent"
-            android:layout_height="54dp"
-            android:ems="10"
-            android:fontFamily="@font/montserrat_regular"
-            android:inputType="textPersonName"
-            android:text="DIreccion"
-            android:textColor="@color/light_green"
-            android:textSize="18sp"
-            android:textStyle="normal" />
+            <Button
+                android:id="@+id/EliminarCuenta"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/gray_green"
+                android:onClick="onGoNow"
+                android:text="Eliminar Cuenta"
+                android:textAllCaps="false"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="20dp" />
+        </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="318dp"
-        android:layout_height="109dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/linearLayout6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <Button
-            android:id="@+id/ModificarPerfil"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/green"
-            android:onClick="onPlanRide"
-            android:text="Modificar Perfil"
-            android:textAlignment="center"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="20dp" />
-
-        <Button
-            android:id="@+id/EliminarCuenta"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:backgroundTint="@color/gray_green"
-            android:onClick="onGoNow"
-            android:text="Eliminar Cuenta"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:cornerRadius="20dp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
