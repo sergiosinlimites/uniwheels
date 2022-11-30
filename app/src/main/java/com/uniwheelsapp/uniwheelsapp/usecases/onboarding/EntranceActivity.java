@@ -106,7 +106,7 @@ public class EntranceActivity extends AppCompatActivity {
 
     private void getUserInfo() {
         Gson gson = new Gson();
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
         String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
         Person person = gson.fromJson(personString, Person.class);
         if(person != null){
@@ -130,7 +130,6 @@ public class EntranceActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
-        Log.d("LOGIN", "HACE ESTOOOOO " + resultCode);
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 100){
             viewModel.updateAccount(data);

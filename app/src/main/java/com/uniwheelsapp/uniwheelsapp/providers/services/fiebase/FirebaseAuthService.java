@@ -69,6 +69,7 @@ public class FirebaseAuthService extends Service {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             GoogleSignInAccount account = task.getResult(ApiException.class);
             if(account != null){
+                Log.d(account.getEmail(), account.getIdToken());
                 AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
                 FirebaseAuth.getInstance().signInWithCredential(credential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

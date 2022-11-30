@@ -73,6 +73,8 @@
     <string name="title_activity_maps">MapsActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profile_driver_home">Mi perfil</string>
+    <string name="profile_description_driver_home">Revisa tu información personal</string>
 
 
 </resources>

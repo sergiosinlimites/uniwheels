@@ -71,7 +71,6 @@ public class DriverPlannedTravelsFragment extends Fragment implements PlannedTra
 
     @Override
     public void onCancelTravel(Viaje viaje) {
-        Log.d("LO QUE DETERMINA", viaje.getDocumentId());
         AlertDialog.Builder alerta = new AlertDialog.Builder(getContext());
         alerta.setMessage("¿Desea cancelar este viaje?")
                 .setCancelable(false)

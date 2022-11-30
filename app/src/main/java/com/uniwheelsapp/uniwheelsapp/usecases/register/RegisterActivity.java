@@ -144,7 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void getUserInfo() {
         Gson gson = new Gson();
-        SharedPreferences sharedPreferences = getPreferences(MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
         String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
         Person person = gson.fromJson(personString, Person.class);
         if(person != null){
@@ -157,6 +157,7 @@ public class RegisterActivity extends AppCompatActivity {
     private void savePersonInfo(Person person) {
         Gson gson = new Gson();
         String personJSON = gson.toJson(person);
+        Log.d("ES ACTIVO EN LA ENTRADA", String.valueOf(person.getActivo()));
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(Preferences.USER_INFO, personJSON).commit();

@@ -18,6 +18,7 @@ import com.uniwheelsapp.uniwheelsapp.R;
 import com.uniwheelsapp.uniwheelsapp.databinding.FragmentDriverHomeBinding;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
 import com.uniwheelsapp.uniwheelsapp.usecases.plannedTravels.PlannedTravelsActivity;
+import com.uniwheelsapp.uniwheelsapp.usecases.profile.ProfileActivity;
 
 import java.io.Serializable;
 import java.util.Locale;
@@ -80,7 +81,6 @@ public class DriverHomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getApplicationContext(), PlannedTravelsActivity.class);
-                intent.putExtra("person", person);
                 startActivity(intent);
             }
         });
@@ -88,6 +88,15 @@ public class DriverHomeFragment extends Fragment {
         binding.reviewRequestsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            }
+        });
+
+        binding.profileButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().finish();
+                Intent intent = new Intent(getActivity().getApplicationContext(), ProfileActivity.class);
+                startActivity(intent);
             }
         });
     }

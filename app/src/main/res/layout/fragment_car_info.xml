@@ -1,14 +1,175 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".usecases.profile.CarInfoFragment">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        tools:context=".usecases.profile.CarInfoFragment">
 
-</FrameLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Información del vehículo"
+                android:textSize="22dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/green"/>
+
+            <LinearLayout
+                android:id="@+id/editLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/matricula"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Matrícula"
+                    android:inputType="text"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+
+                <EditText
+                    android:id="@+id/marca"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Marca"
+                    android:inputType="text"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <EditText
+                    android:id="@+id/modelo"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Modelo"
+                    android:inputType="text"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <EditText
+                    android:id="@+id/anio"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Año"
+                    android:inputType="number"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <EditText
+                    android:id="@+id/cupos"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:hint="Cupos"
+                    android:inputType="number"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <Button
+                    android:id="@+id/actualizarVehiculo"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:backgroundTint="@color/green"
+                    android:text="Guardar vehículo"
+                    android:textAlignment="center"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    app:cornerRadius="20dp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/seeLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ver"></TextView>
+
+                <TextView
+                    android:id="@+id/matriculaView"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/marcaView"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/modeloView"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/anioView"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/cuposView"
+                    android:layout_width="match_parent"
+                    android:layout_height="54dp"
+                    android:ems="10"
+                    android:fontFamily="@font/montserrat_regular"
+                    android:textColor="@color/light_green"
+                    android:textSize="18sp"
+                    android:textStyle="normal" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</layout>

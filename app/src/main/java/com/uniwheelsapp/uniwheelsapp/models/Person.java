@@ -42,6 +42,8 @@ public class Person implements Parcelable {
     private Boolean activo;
     private Date fechaCreacion;
     private String tipo;
+    private Vehiculo vehiculo;
+
 
     protected Person(Parcel in) {
         nombre = in.readString();
@@ -52,7 +54,7 @@ public class Person implements Parcelable {
         foto = in.readString();
         fotosCedula = in.createStringArrayList();
         direccion = in.readString();
-        calificacion = in.readInt();
+        calificacion = in.readFloat();
         byte tmpHabilitado = in.readByte();
         habilitado = tmpHabilitado == 0 ? null : tmpHabilitado == 1;
         password = in.readString();
@@ -61,29 +63,6 @@ public class Person implements Parcelable {
         byte tmpActivo = in.readByte();
         activo = tmpActivo == 0 ? null : tmpActivo == 1;
         tipo = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(nombre);
-        dest.writeString(apellido);
-        dest.writeInt(cedula);
-        dest.writeString(email);
-        dest.writeInt(celular);
-        dest.writeString(foto);
-        dest.writeStringList(fotosCedula);
-        dest.writeString(direccion);
-        dest.writeFloat(calificacion);
-        dest.writeByte((byte) (habilitado == null ? 0 : habilitado ? 1 : 2));
-        dest.writeString(password);
-        dest.writeByte((byte) (celularValidado == null ? 0 : celularValidado ? 1 : 2));
-        dest.writeByte((byte) (activo == null ? 0 : activo ? 1 : 2));
-        dest.writeString(tipo);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
     public static final Creator<Person> CREATOR = new Creator<Person>() {
@@ -219,4 +198,34 @@ public class Person implements Parcelable {
         this.tipo = tipo;
     }
 
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(nombre);
+        parcel.writeString(apellido);
+        parcel.writeInt(cedula);
+        parcel.writeString(email);
+        parcel.writeInt(celular);
+        parcel.writeString(foto);
+        parcel.writeStringList(fotosCedula);
+        parcel.writeString(direccion);
+        parcel.writeFloat(calificacion);
+        parcel.writeByte((byte) (habilitado == null ? 0 : habilitado ? 1 : 2));
+        parcel.writeString(password);
+        parcel.writeByte((byte) (celularValidado == null ? 0 : celularValidado ? 1 : 2));
+        parcel.writeByte((byte) (activo == null ? 0 : activo ? 1 : 2));
+        parcel.writeString(tipo);
+    }
 }
