@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,12 +20,15 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.gson.Gson;
 import com.uniwheelsapp.uniwheelsapp.R;
 import com.uniwheelsapp.uniwheelsapp.databinding.ActivityNewTravelBinding;
 import com.uniwheelsapp.uniwheelsapp.models.ConductorViaje;
 import com.uniwheelsapp.uniwheelsapp.models.Lugar;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
+import com.uniwheelsapp.uniwheelsapp.models.Preferences;
 import com.uniwheelsapp.uniwheelsapp.models.Universidad;
+import com.uniwheelsapp.uniwheelsapp.models.Vehiculo;
 import com.uniwheelsapp.uniwheelsapp.models.Viaje;
 import com.uniwheelsapp.uniwheelsapp.usecases.plannedTravels.PlannedTravelsViewModel;
 
@@ -40,6 +44,10 @@ public class NewTravelActivity extends AppCompatActivity {
     private ActivityNewTravelBinding binding;
 
     private NewTravelViewModel viewModel;
+
+    private Person person;
+
+    private int maximosCupos;
 
     private ArrayAdapter<CharSequence> tiposViajesAdapter, localidadAdapter, upzAdapter, barrioAdapter, universidadAdapter;
 
@@ -65,7 +73,9 @@ public class NewTravelActivity extends AppCompatActivity {
 
         viewModel = new ViewModelProvider(this).get(NewTravelViewModel.class);
 
-        Person person = getIntent().getParcelableExtra("person");
+        getUserInfo();
+
+        //Person person = getIntent().getParcelableExtra("person");
 
         // Inicialización spinner localidad
         tiposViajesAdapter = ArrayAdapter.createFromResource(this, R.array.tiposViajes, R.layout.spinner_layout);
@@ -321,14 +331,22 @@ public class NewTravelActivity extends AppCompatActivity {
         binding.restarCupos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.cantidadCupos.setText(String.valueOf(Integer.valueOf(binding.cantidadCupos.getText().toString())-1));
+                if(Integer.valueOf(binding.cantidadCupos.getText().toString()) > 1){
+                    binding.cantidadCupos.setText(String.valueOf(Integer.valueOf(binding.cantidadCupos.getText().toString())-1));
+                } else {
+                    Toast.makeText(NewTravelActivity.this, "No se pueden añadir 0 cupos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         binding.sumarCupos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.cantidadCupos.setText(String.valueOf(Integer.valueOf(binding.cantidadCupos.getText().toString())+1));
+                if(Integer.valueOf(binding.cantidadCupos.getText().toString()) < maximosCupos){
+                    binding.cantidadCupos.setText(String.valueOf(Integer.valueOf(binding.cantidadCupos.getText().toString())+1));
+                } else {
+                    Toast.makeText(NewTravelActivity.this, "No se pueden añadir más cupos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -384,8 +402,8 @@ public class NewTravelActivity extends AppCompatActivity {
                         Lugar lugar = new Lugar(ciudad, localidad, upz, barrio);
                         Universidad universidad = new Universidad(nombreUniversidad);
                         ConductorViaje conductor = new ConductorViaje(person.getEmail(), person.getNombre(), person.getApellido(), person.getFoto(), person.getCalificacion());
-
-                        Viaje viaje = new Viaje(conductor, lugar, universidad, salida, llegada, tarifa, cupos, tipoViaje);
+                        Vehiculo vehiculo = person.getVehiculo();
+                        Viaje viaje = new Viaje(conductor, lugar, universidad, salida, llegada, tarifa, cupos, tipoViaje, vehiculo);
 
                         Log.d("VIAJE FINAL", viaje.getLlegada().toString());
                         viewModel.createTravel(viaje);
@@ -407,5 +425,17 @@ public class NewTravelActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void getUserInfo() {
+        Gson gson = new Gson();
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
+        String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
+        person = gson.fromJson(personString, Person.class);
+        maximosCupos = person.getVehiculo().getCupos();
+        if(person == null || !person.getHabilitado()){
+            Toast.makeText(this, "No estás habilitado, pronto uno de nuestros administradores verá tu solicitud", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 }

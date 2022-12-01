@@ -15,7 +15,8 @@ import java.util.Date;
 public class Viaje {
     private String documentId;
     private ConductorViaje conductor;
-    private ArrayList<String> pasajeros;
+    private Vehiculo vehiculo;
+    private ArrayList<PasajeroViaje> pasajeros;
     private Lugar lugar;
     private Universidad universidad;
     private Date salida;
@@ -31,7 +32,7 @@ public class Viaje {
 
     }
 
-    public Viaje(ConductorViaje conductor, Lugar lugar, Universidad universidad, Date salida, Date llegada, int tarifa, int cupos, String tipoViaje) {
+    public Viaje(ConductorViaje conductor, Lugar lugar, Universidad universidad, Date salida, Date llegada, int tarifa, int cupos, String tipoViaje, Vehiculo vehiculo) {
         this.conductor = conductor;
         this.lugar = lugar;
         this.universidad = universidad;
@@ -41,7 +42,8 @@ public class Viaje {
         this.cupos = cupos;
         this.tipoViaje = tipoViaje;
         this.tiempoEstimado = calcularTiempoEstimado(llegada, salida);
-        this.estadoViaje = "Sin comenzar";
+        this.estadoViaje = "SIN COMENZAR";
+        this.vehiculo = vehiculo;
     }
 
     public String getTipoViaje() {
@@ -97,11 +99,11 @@ public class Viaje {
         this.llegada = llegada;
     }
 
-    public ArrayList<String> getPasajeros() {
+    public ArrayList<PasajeroViaje> getPasajeros() {
         if(pasajeros != null){
             return pasajeros;
         } else {
-            return new ArrayList<String>();
+            return new ArrayList<PasajeroViaje>();
         }
     }
 
@@ -129,7 +131,7 @@ public class Viaje {
         this.conductor = conductor;
     }
 
-    public void setPasajeros(ArrayList<String> pasajeros) {
+    public void setPasajeros(ArrayList<PasajeroViaje> pasajeros) {
         this.pasajeros = pasajeros;
     }
 

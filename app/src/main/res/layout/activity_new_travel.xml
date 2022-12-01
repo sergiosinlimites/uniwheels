@@ -303,6 +303,7 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <Button
@@ -310,7 +311,9 @@
                             android:layout_width="50dp"
                             android:layout_height="50dp"
                             android:layout_weight="0"
-                            android:text="-" />
+                            android:backgroundTint="@color/green"
+                            android:text="-"
+                            app:cornerRadius="50dp" />
 
                         <TextView
                             android:id="@+id/cantidadCupos"
@@ -324,7 +327,9 @@
                             android:id="@+id/sumarCupos"
                             android:layout_width="50dp"
                             android:layout_height="50dp"
-                            android:text="+" />
+                            android:backgroundTint="@color/green"
+                            android:text="+"
+                            app:cornerRadius="50dp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -347,6 +352,7 @@
                         android:id="@+id/tarifa"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="$3000"
                         android:ems="10"
                         android:inputType="number" />
                 </LinearLayout>
@@ -354,17 +360,19 @@
             </LinearLayout>
 
             <Button
+                android:layout_marginTop="20dp"
                 android:id="@+id/finishPlan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Planear" />
-
-            <!--        <fragment-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:name="com.uniwheelsapp.uniwheelsapp.usecases.maps.setLocation.SetLocationFragment"-->
-            <!--            android:id="@+id/mapsFragment"/>-->
-
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_weight="0"
+                android:backgroundTint="@color/green"
+                android:text="Planear viaje"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:cornerRadius="20dp" />
 
         </LinearLayout>
     </ScrollView>

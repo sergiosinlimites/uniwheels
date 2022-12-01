@@ -94,7 +94,6 @@ public class DriverPlannedTravelsFragment extends Fragment implements PlannedTra
 
     public void createNewTravel(){
         Intent intent = new Intent(getActivity().getApplicationContext(), NewTravelActivity.class);
-        intent.putExtra("person", person);
         startActivity(intent);
     }
 

@@ -27,6 +27,10 @@ public class PlannedTravelsActivity extends AppCompatActivity {
     private PlannedTravelsViewModel viewModel;
     private Person person;
 
+    private Gson gson;
+
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,11 +38,29 @@ public class PlannedTravelsActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        gson = new Gson();
+        sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
+
+
         getUserInfo();
 
         viewModel = new ViewModelProvider(this).get(PlannedTravelsViewModel.class);
-        viewModel.getTravelsByPerson(person);
+        viewModel.listenForChanges(person.getEmail());
 
+        viewModel.getPersonMutableLiveData().observe(this, new Observer<Person>() {
+            @Override
+            public void onChanged(Person newPerson) {
+                person = newPerson;
+                setUserInfo(person);
+            }
+        });
+    }
+
+    private void setUserInfo(Person person) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        String personJSON = gson.toJson(person);
+        editor.putString(Preferences.USER_INFO, personJSON);
+        editor.commit();
     }
 
     private void getUserInfo() {
