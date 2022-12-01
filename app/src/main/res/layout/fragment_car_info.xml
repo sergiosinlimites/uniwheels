@@ -112,11 +112,6 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Ver"></TextView>
-
-                <TextView
                     android:id="@+id/matriculaView"
                     android:layout_width="match_parent"
                     android:layout_height="54dp"

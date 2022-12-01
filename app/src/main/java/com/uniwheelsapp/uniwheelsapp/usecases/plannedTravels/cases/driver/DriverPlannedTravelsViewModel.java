@@ -44,7 +44,11 @@ public class DriverPlannedTravelsViewModel extends AndroidViewModel {
                     for(DocumentSnapshot documento : documentosViajes){
                         Viaje viaje = documento.toObject(Viaje.class);
                         viaje.setDocumentId(documento.getId());
-                        viajes.add(viaje);
+
+                        Log.d("estado"+viaje.getDocumentId(), viaje.getEstadoViaje());
+                        if(!viaje.getEstadoViaje().equals("CANCELADO")){
+                            viajes.add(viaje);
+                        }
                     }
                     adapter.updateData(viajes);
                 } else {

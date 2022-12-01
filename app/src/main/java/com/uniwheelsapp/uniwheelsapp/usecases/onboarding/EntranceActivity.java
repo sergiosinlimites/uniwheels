@@ -110,8 +110,8 @@ public class EntranceActivity extends AppCompatActivity {
         String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
         Person person = gson.fromJson(personString, Person.class);
         if(person != null){
-            if(person.getActivo()){
-                goToMainActivity();
+            if(person.getActivo() != null && person.getActivo()){
+                // goToMainActivity();
             }
         }
     }

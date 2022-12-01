@@ -77,6 +77,7 @@ public class DriverPlannedTravelsFragment extends Fragment implements PlannedTra
                 .setPositiveButton("Sí, deseo cancelar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Log.d("ID",viaje.getDocumentId());
                         viewModel.cancelTravel(viaje.getDocumentId());
                         // TODO toca notificar a los pasajeros que fue cancelado
                         adapter.cancelTravel(viaje);

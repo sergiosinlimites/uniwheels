@@ -119,7 +119,9 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
         String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
         person = gson.fromJson(personString, Person.class);
-        Log.d("PERSONA MAIN", person.getNombre());
+        if(person != null){
+            Log.d("PERSONA MAIN", person.getNombre());
+        }
     }
 
     private void checkValidity(String email){

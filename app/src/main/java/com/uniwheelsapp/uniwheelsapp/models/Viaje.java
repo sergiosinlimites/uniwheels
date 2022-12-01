@@ -28,6 +28,7 @@ public class Viaje {
     private String estadoViaje;
     private Date fechaCreacion;
     private String tipoViaje;
+    private PasajeroViaje pasajeroViaje;
 
     public Viaje(){
 
@@ -185,5 +186,13 @@ public class Viaje {
 
     public void modificarCupos(){
         // do something
+    }
+
+    public void setPasajero(PasajeroViaje pasajero) {
+        this.pasajeroViaje = pasajero;
+    }
+
+    public PasajeroViaje getPasajero(){
+        return this.pasajeroViaje;
     }
 }

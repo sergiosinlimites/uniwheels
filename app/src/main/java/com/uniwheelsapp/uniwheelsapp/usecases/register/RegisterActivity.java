@@ -88,6 +88,7 @@ public class RegisterActivity extends AppCompatActivity {
             public void onChanged(GoogleSignInAccount googleSignInAccount) {
                 if(googleSignInAccount != null){
                     email = googleSignInAccount.getEmail();
+                    Log.d("email",email);
                     checkValidity(email);
                 } else {
                     GoBack();
@@ -108,7 +109,9 @@ public class RegisterActivity extends AppCompatActivity {
                     getImage(person);
                 } else {
                     savePersonInfo(person);
-                    MainActivity();
+                    setFields(person);
+                    getImage(person);
+                    // MainActivity();
                 }
             }
         });
@@ -148,8 +151,8 @@ public class RegisterActivity extends AppCompatActivity {
         String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
         Person person = gson.fromJson(personString, Person.class);
         if(person != null){
-            if(person.getActivo()){
-                MainActivity();
+            if(person.getActivo() != null && person.getActivo()){
+                // MainActivity();
             }
         }
     }
@@ -196,7 +199,9 @@ public class RegisterActivity extends AppCompatActivity {
      * @param email
      */
     private void checkValidity(String email){
+        binding.signUpEmail.setText(email);
         viewModel.searchInDB(email);
+
     }
 
     /**
@@ -242,6 +247,7 @@ public class RegisterActivity extends AppCompatActivity {
      * @param person El documento de la base de datos del usuario
      */
     private void setFields(Person person){
+        Log.d("EMAIL",person.getEmail());
         binding.signUpEmail.setText(person.getEmail() != null ? person.getEmail() : email);
         binding.signupNameInput.setText(person.getNombre());
         binding.signupLastNameInput.setText(person.getApellido());
@@ -279,10 +285,10 @@ public class RegisterActivity extends AppCompatActivity {
         String nombre = binding.signupNameInput.getText().toString();
         String apellido = binding.signupLastNameInput.getText().toString();
         String direccion = binding.signupAddressInput.getText().toString();
-        Number cellphone = binding.signupCellphoneInput.getText() != null ? Integer.parseInt(binding.signupCellphoneInput.getText().toString()) : null;
-        Number identificacion = binding.signupIdInput.getText() != null ? Integer.parseInt(binding.signupIdInput.getText().toString()) : null;
+        int cellphone = binding.signupCellphoneInput.getText() != null ? Integer.parseInt(binding.signupCellphoneInput.getText().toString()) : null;
+        int identificacion = binding.signupIdInput.getText() != null ? Integer.parseInt(binding.signupIdInput.getText().toString()) : null;
 
-        if(nombre.isEmpty() || apellido.isEmpty() || direccion.isEmpty() || cellphone.toString().isEmpty() || identificacion.toString().isEmpty()){
+        if(nombre.isEmpty() || apellido.isEmpty() || direccion.isEmpty() || String.valueOf(cellphone).isEmpty() || String.valueOf(identificacion).isEmpty()){
             Toast.makeText(this, "No se puede continuar, faltan campos por llenar", Toast.LENGTH_SHORT).show();
         } else {
             userObject.put(Person.NAME_KEY, nombre);

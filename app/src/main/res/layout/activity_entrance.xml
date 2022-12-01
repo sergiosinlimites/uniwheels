@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EntranceActivity">
+    tools:context=".usecases.onboarding.EntranceActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,25 +65,11 @@
                 android:textStyle="bold" />
 
             <Button
-                android:id="@+id/loginButton"
-                android:layout_width="302dp"
-                android:layout_height="56dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/gray_green"
-                android:onClick="onGoLogin"
-                android:text="@string/entry"
-                android:textAllCaps="false"
-                android:textColor="@color/black"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                app:cornerRadius="20dp" />
-
-            <Button
                 android:id="@+id/registerButton"
                 android:layout_width="302dp"
                 android:layout_height="56dp"
                 android:backgroundTint="@color/green"
-                android:text="@string/register"
+                android:text="Comenzar"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="18sp"

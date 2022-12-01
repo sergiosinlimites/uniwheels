@@ -349,6 +349,7 @@ public class SearchTravelActivity extends AppCompatActivity implements Available
                     Log.d("upzSelected",upzSelected + " " +  String.valueOf(upzSelected != null && !upzSelected.isEmpty() && !upzSelected.equals(SELECCIONA_UPZ) && !viajeLista.getLugar().getUpz().equals(upzSelected)));
                     Log.d("barrioSelected", barrioSelected + "  " + String.valueOf(barrioSelected != null && !barrioSelected.isEmpty() && !barrioSelected.equals(SELECCIONA_BARRIO) && !viajeLista.getLugar().getBarrio().equals(barrioSelected)));
                     Log.d("universidadSelected", universidadSelected + " " + String.valueOf(universidadSelected != null && !universidadSelected.isEmpty() && !universidadSelected.equals(SELECCIONA_UNI) && !viajeLista.getUniversidad().equals(universidadSelected)));
+                    Log.d("espera", viajeLista.getDocumentId());
 
                     if(
                         (tipoViajeSelected != null && !tipoViajeSelected.isEmpty() && !tipoViajeSelected.equals(SELECCIONA_VIAJE) && !viajeLista.getTipoViaje().equals(tipoViajeSelected)) ||
@@ -360,12 +361,13 @@ public class SearchTravelActivity extends AppCompatActivity implements Available
                        continua = false;
                     }
                     for(PasajeroViaje pasajeroViaje : viajeLista.getPasajeros()){
-                        Log.d("CORREO PASAJERO", pasajeroViaje.getCorreo());
+                        //Log.d("CORREO PASAJERO", pasajeroViaje.getCorreo());
                         if(pasajeroViaje.getCorreo().equals(person.getEmail())){
                             continua = false;
                         }
                     }
                     if(continua){
+                        //Log.d("posibles viajes", viajeLista.getDocumentId());
                         posiblesViajes.add(viajeLista);
                     }
                 }
