@@ -1,9 +1,10 @@
-package com.uniwheelsapp.uniwheelsapp.usecases.newTravel;
+package com.uniwheelsapp.uniwheelsapp.usecases.searchTravel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -13,45 +14,45 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.gson.Gson;
 import com.uniwheelsapp.uniwheelsapp.R;
-import com.uniwheelsapp.uniwheelsapp.databinding.ActivityNewTravelBinding;
-import com.uniwheelsapp.uniwheelsapp.models.ConductorViaje;
-import com.uniwheelsapp.uniwheelsapp.models.Lugar;
+import com.uniwheelsapp.uniwheelsapp.adapters.AvailableTravelsAdapter;
+import com.uniwheelsapp.uniwheelsapp.adapters.PlannedTravelsPassengerAdapter;
+import com.uniwheelsapp.uniwheelsapp.databinding.ActivitySearchTravelBinding;
+import com.uniwheelsapp.uniwheelsapp.dialogs.MeetingPointDialog;
+import com.uniwheelsapp.uniwheelsapp.models.PasajeroViaje;
 import com.uniwheelsapp.uniwheelsapp.models.Person;
 import com.uniwheelsapp.uniwheelsapp.models.Preferences;
-import com.uniwheelsapp.uniwheelsapp.models.Universidad;
-import com.uniwheelsapp.uniwheelsapp.models.Vehiculo;
 import com.uniwheelsapp.uniwheelsapp.models.Viaje;
-import com.uniwheelsapp.uniwheelsapp.usecases.plannedTravels.PlannedTravelsViewModel;
+import com.uniwheelsapp.uniwheelsapp.usecases.newTravel.NewTravelActivity;
 
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
-public class NewTravelActivity extends AppCompatActivity {
+public class SearchTravelActivity extends AppCompatActivity implements AvailableTravelsAdapter.AvailableTravelsClickListener, MeetingPointDialog.MeetingPointListener {
 
-    private ActivityNewTravelBinding binding;
+    private ActivitySearchTravelBinding binding;
 
-    private NewTravelViewModel viewModel;
+    private SearchTravelViewModel viewModel;
 
     private Person person;
-
-    private int maximosCupos;
+    private Viaje viajeEnProceso;
 
     private ArrayAdapter<CharSequence> tiposViajesAdapter, localidadAdapter, upzAdapter, barrioAdapter, universidadAdapter;
 
     private String tipoViajeSelected, localidadSelected, upzSelected, barrioSelected, universidadSelected;
+
+    private AvailableTravelsAdapter adapter;
 
     private Calendar departureCalendar = Calendar.getInstance();
     private Calendar arrivalCalendar = Calendar.getInstance();
@@ -67,15 +68,13 @@ public class NewTravelActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_new_travel);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_search_travel);
         View view = binding.getRoot();
         setContentView(view);
-
-        viewModel = new ViewModelProvider(this).get(NewTravelViewModel.class);
-
         getUserInfo();
+        startRecyclerView();
 
-        //Person person = getIntent().getParcelableExtra("person");
+        viewModel = new ViewModelProvider(this).get(SearchTravelViewModel.class);
 
         // Inicialización spinner localidad
         tiposViajesAdapter = ArrayAdapter.createFromResource(this, R.array.tiposViajes, R.layout.spinner_layout);
@@ -121,14 +120,14 @@ public class NewTravelActivity extends AppCompatActivity {
         binding.departureCalendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(NewTravelActivity.this, new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                    departureCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                    departureCalendar.set(Calendar.MONTH, month);
-                    departureCalendar.set(Calendar.YEAR, year);
-                    binding.departureDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
-                }
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SearchTravelActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                        departureCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        departureCalendar.set(Calendar.MONTH, month);
+                        departureCalendar.set(Calendar.YEAR, year);
+                        binding.departureDate.setText(dayOfMonth+"/"+(month+1)+"/"+year);
+                    }
                 }, Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH), Calendar.getInstance().get(Calendar.DAY_OF_MONTH));
                 datePickerDialog.show();
             }
@@ -137,7 +136,7 @@ public class NewTravelActivity extends AppCompatActivity {
         binding.departureTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(NewTravelActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(SearchTravelActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
                         departureCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
@@ -152,7 +151,7 @@ public class NewTravelActivity extends AppCompatActivity {
         binding.arrivalCalendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialog datePickerDialog = new DatePickerDialog(NewTravelActivity.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(SearchTravelActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
                         arrivalCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -168,7 +167,7 @@ public class NewTravelActivity extends AppCompatActivity {
         binding.arrivalTimeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TimePickerDialog timePickerDialog = new TimePickerDialog(NewTravelActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(SearchTravelActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minute) {
                         arrivalCalendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
@@ -252,7 +251,7 @@ public class NewTravelActivity extends AppCompatActivity {
                         case "Sumapaz":
                             upzAdapter = ArrayAdapter.createFromResource(adapterView.getContext(), R.array.upz_localidad_usaquen, R.layout.spinner_layout);
                             break;
-                            default: break;
+                        default: break;
                     }
                     barrioAdapter = ArrayAdapter.createFromResource(adapterView.getContext(), R.array.barriosDefault, R.layout.spinner_layout);
                     barrioAdapter.setDropDownViewResource(androidx.appcompat.R.layout.support_simple_spinner_dropdown_item);
@@ -276,7 +275,6 @@ public class NewTravelActivity extends AppCompatActivity {
                 upzSelected = binding.upzSpinner.getSelectedItem().toString();
                 Log.d("UPZ SELECCIONADA", "onItemSelected: " +upzSelected);
                 int parentID = adapterView.getId();
-                Log.d("hehehhe", "adapterView.getId()" + adapterView.getId() + " " + R.id.upzSpinner );
                 if(parentID == R.id.upzSpinner) {
                     switch (upzSelected) {
                         case SELECCIONA_UPZ:
@@ -328,102 +326,59 @@ public class NewTravelActivity extends AppCompatActivity {
             }
         });
 
-        binding.restarCupos.setOnClickListener(new View.OnClickListener() {
+        binding.searchTravels.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Integer.valueOf(binding.cantidadCupos.getText().toString()) > 1){
-                    binding.cantidadCupos.setText(String.valueOf(Integer.valueOf(binding.cantidadCupos.getText().toString())-1));
-                } else {
-                    Toast.makeText(NewTravelActivity.this, "No se pueden añadir 0 cupos", Toast.LENGTH_SHORT).show();
-                }
+                Date salida = departureCalendar.getTime();
+                Date llegada = arrivalCalendar.getTime();
+
+                viewModel.getTravelsFromDate();
+                // tipoViajeSelected, localidadSelected, upzSelected, barrioSelected, universidadSelected;
             }
         });
 
-        binding.sumarCupos.setOnClickListener(new View.OnClickListener() {
+        viewModel.getViajes().observe(this, new Observer<ArrayList<Viaje>>() {
             @Override
-            public void onClick(View view) {
-                if(Integer.valueOf(binding.cantidadCupos.getText().toString()) < maximosCupos){
-                    binding.cantidadCupos.setText(String.valueOf(Integer.valueOf(binding.cantidadCupos.getText().toString())+1));
-                } else {
-                    Toast.makeText(NewTravelActivity.this, "No se pueden añadir más cupos", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            public void onChanged(ArrayList<Viaje> viajes) {
+                ArrayList<Viaje> posiblesViajes = new ArrayList<>();
+                Log.d("TAMAÑO INICIAL", String.valueOf(viajes.size()));
+                Boolean continua = true;
+                for(Viaje viajeLista : viajes){
+                    Log.d("tipoViajeSelected", tipoViajeSelected + " " +  String.valueOf(tipoViajeSelected != null && !tipoViajeSelected.isEmpty() && !tipoViajeSelected.equals(SELECCIONA_VIAJE) && !viajeLista.getTipoViaje().equals(tipoViajeSelected)));
+                    Log.d("localidadSelected", localidadSelected + " " + String.valueOf(localidadSelected != null && !localidadSelected.isEmpty() && !localidadSelected.equals(SELECCIONA_LOCALIDAD) && !viajeLista.getLugar().getLocalidad().equals(localidadSelected)));
+                    Log.d("upzSelected",upzSelected + " " +  String.valueOf(upzSelected != null && !upzSelected.isEmpty() && !upzSelected.equals(SELECCIONA_UPZ) && !viajeLista.getLugar().getUpz().equals(upzSelected)));
+                    Log.d("barrioSelected", barrioSelected + "  " + String.valueOf(barrioSelected != null && !barrioSelected.isEmpty() && !barrioSelected.equals(SELECCIONA_BARRIO) && !viajeLista.getLugar().getBarrio().equals(barrioSelected)));
+                    Log.d("universidadSelected", universidadSelected + " " + String.valueOf(universidadSelected != null && !universidadSelected.isEmpty() && !universidadSelected.equals(SELECCIONA_UNI) && !viajeLista.getUniversidad().equals(universidadSelected)));
 
-        binding.finishPlan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    binding.tipoViaje.setError(null);
-                    binding.localidadString.setError(null);
-                    binding.upzString.setError(null);
-                    binding.barrioString.setError(null);
-                    binding.universidadString.setError(null);
-                    if (tipoViajeSelected == null || tipoViajeSelected.equals(SELECCIONA_VIAJE)){
-                        Toast.makeText(NewTravelActivity.this, "Por favor selecciona un tipo de viaje", Toast.LENGTH_LONG).show();
-                        binding.tipoViaje.setError("El tipo de viaje es requerido");
-                        binding.tipoViaje.requestFocus();
-                    } else if(localidadSelected == null || localidadSelected.equals(SELECCIONA_LOCALIDAD)){
-                        Toast.makeText(NewTravelActivity.this, "Por favor selecciona una localidad", Toast.LENGTH_LONG).show();
-                        binding.localidadString.setError("La localidad es requerida");
-                        binding.localidadString.requestFocus();
-                    } else if(upzSelected == null || upzSelected.equals(SELECCIONA_UPZ)){
-                        Toast.makeText(NewTravelActivity.this, "Por favor selecciona una UPZ", Toast.LENGTH_LONG).show();
-                        binding.upzString.setError("La UPZ es requerida");
-                        binding.upzString.requestFocus();
-                    } else if(barrioSelected == null || barrioSelected.equals(SELECCIONA_BARRIO)) {
-                        Toast.makeText(NewTravelActivity.this, "Por favor selecciona un barrio", Toast.LENGTH_SHORT).show();
-                        binding.barrioString.setError("El barrio es requerido");
-                        binding.barrioString.requestFocus();
-                    } else if(universidadSelected == null || universidadSelected.equals(SELECCIONA_UNI)) {
-                        Toast.makeText(NewTravelActivity.this, "Por favor selecciona una universidad", Toast.LENGTH_SHORT).show();
-                        binding.universidadString.setError("La universidad es requerida");
-                        binding.universidadString.requestFocus();
-                    } else if (binding.tarifa.getText().toString().isEmpty() || binding.tarifa.getText().toString().equals("0")) {
-                        Toast.makeText(NewTravelActivity.this, "Por favor asigna una tarifa", Toast.LENGTH_SHORT).show();
-                        binding.tarifaString.setError("La tarifa es requerida");
-                        binding.tarifaString.requestFocus();
-                    } else if (binding.cantidadCupos.getText().toString().isEmpty() || binding.cantidadCupos.getText().toString().equals("0")) {
-                        Toast.makeText(NewTravelActivity.this, "Por favor asigna una cantidad de cupos", Toast.LENGTH_SHORT).show();
-                        binding.cuposString.setError("La cantidad de cupos tiene que ser al menos 1");
-                        binding.cuposString.requestFocus();
-                    } else {
-                        String ciudad = "Bogotá D.C.";
-                        String localidad = localidadSelected;
-                        String upz = upzSelected;
-                        String barrio = barrioSelected;
-                        String nombreUniversidad = universidadSelected;
-                        String tipoViaje = tipoViajeSelected;
-                        int cupos = Integer.parseInt(binding.cantidadCupos.getText().toString());
-                        int tarifa = Integer.parseInt(binding.tarifa.getText().toString());
-                        Date salida = departureCalendar.getTime();
-                        Date llegada = arrivalCalendar.getTime();
-
-                        Lugar lugar = new Lugar(ciudad, localidad, upz, barrio);
-                        Universidad universidad = new Universidad(nombreUniversidad);
-                        ConductorViaje conductor = new ConductorViaje(person.getEmail(), person.getCelular(), person.getNombre(), person.getApellido(), person.getFoto(), person.getCalificacion());
-                        Vehiculo vehiculo = person.getVehiculo();
-                        Viaje viaje = new Viaje(conductor, lugar, universidad, salida, llegada, tarifa, cupos, tipoViaje, vehiculo);
-
-                        viewModel.createTravel(viaje);
+                    if(
+                        (tipoViajeSelected != null && !tipoViajeSelected.isEmpty() && !tipoViajeSelected.equals(SELECCIONA_VIAJE) && !viajeLista.getTipoViaje().equals(tipoViajeSelected)) ||
+                        (localidadSelected != null && !localidadSelected.isEmpty() && !localidadSelected.equals(SELECCIONA_LOCALIDAD) && !viajeLista.getLugar().getLocalidad().equals(localidadSelected)) ||
+                        (upzSelected != null && !upzSelected.isEmpty() && !upzSelected.equals(SELECCIONA_UPZ) && !viajeLista.getLugar().getUpz().equals(upzSelected)) ||
+                        (barrioSelected != null && !barrioSelected.isEmpty() && !barrioSelected.equals(SELECCIONA_BARRIO) && !viajeLista.getLugar().getBarrio().equals(barrioSelected)) ||
+                        (universidadSelected != null && !universidadSelected.isEmpty() && !universidadSelected.equals(SELECCIONA_UNI) && !viajeLista.getUniversidad().equals(universidadSelected))
+                    ){
+                       continua = false;
                     }
-                } catch (Exception exception){
-                    Toast.makeText(NewTravelActivity.this, "Hubo un error al mostrar error", Toast.LENGTH_SHORT).show();
-                    Log.e("ERROR", exception.toString());
+                    for(PasajeroViaje pasajeroViaje : viajeLista.getPasajeros()){
+                        Log.d("CORREO PASAJERO", pasajeroViaje.getCorreo());
+                        if(pasajeroViaje.getCorreo().equals(person.getEmail())){
+                            continua = false;
+                        }
+                    }
+                    if(continua){
+                        posiblesViajes.add(viajeLista);
+                    }
                 }
+                adapter.updateData(posiblesViajes);
             }
         });
+    }
 
-        viewModel.getSuccessfulCreation().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                if(aBoolean){
-                    finish();
-                } else {
-                    Toast.makeText(NewTravelActivity.this, "Ha ocurrido un error al subir el viaje", Toast.LENGTH_LONG).show();
-                }
-            }
-        });
+    private void startRecyclerView() {
+        ArrayList<Viaje> viajesPlaneados = new ArrayList<>();
+        binding.listaViajes.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        adapter = new AvailableTravelsAdapter(viajesPlaneados, this);
+        binding.listaViajes.setAdapter(adapter);
     }
 
     private void getUserInfo() {
@@ -431,10 +386,40 @@ public class NewTravelActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(Preferences.PREFERENCES, MODE_PRIVATE);
         String personString = sharedPreferences.getString(Preferences.USER_INFO, "");
         person = gson.fromJson(personString, Person.class);
-        maximosCupos = person.getVehiculo().getCupos();
         if(person == null || !person.getHabilitado()){
             Toast.makeText(this, "No estás habilitado, pronto uno de nuestros administradores verá tu solicitud", Toast.LENGTH_SHORT).show();
             finish();
         }
+    }
+
+    @Override
+    public void onSeeDetailsFromTravel(Viaje viaje) {
+        viajeEnProceso = viaje;
+        MeetingPointDialog meetingPointDialog = new MeetingPointDialog();
+        meetingPointDialog.show(getSupportFragmentManager(), "Solicitar punto de encuentro");
+    }
+
+    @Override
+    public void terminarSolicitud(String solicitud) {
+        PasajeroViaje nuevoPasajero = new PasajeroViaje(person.getEmail(), person.getNombre(), person.getApellido(), person.getFoto(), person.getCelular(), person.getCalificacion(), solicitud, "EN REVISIÓN");
+        ArrayList<PasajeroViaje> pasajeros = viajeEnProceso.getPasajeros();
+        for(PasajeroViaje pasajeroViaje : pasajeros){
+            if(pasajeroViaje.getCorreo().equals(nuevoPasajero.getCorreo()) && !pasajeroViaje.getEstadoSolicitud().equals("RECHAZADA")){
+                Toast.makeText(this, "Ya has solicitado este viaje", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        Log.d("LOS PASAJEROS",String.valueOf(pasajeros == null));
+        if(pasajeros == null){
+            pasajeros = new ArrayList<>();
+        }
+        pasajeros.add(nuevoPasajero);
+        Log.d("PASAJERO", pasajeros.get(0).getCorreo());
+        Map<String, Object> updateData = new HashMap<>();
+        updateData.put("pasajeros", pasajeros);
+        viewModel.updatePassengers(viajeEnProceso.getDocumentId(), updateData);
+        viajeEnProceso.setDocumentId(null);
+        adapter.removeOne(viajeEnProceso);
+        viajeEnProceso = null;
     }
 }

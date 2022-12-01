@@ -17,6 +17,7 @@ public class Viaje {
     private ConductorViaje conductor;
     private Vehiculo vehiculo;
     private ArrayList<PasajeroViaje> pasajeros;
+    private ArrayList<String> correosPasajeros;
     private Lugar lugar;
     private Universidad universidad;
     private Date salida;
@@ -105,6 +106,14 @@ public class Viaje {
         } else {
             return new ArrayList<PasajeroViaje>();
         }
+    }
+
+    public Vehiculo getVehiculo() {
+        return vehiculo;
+    }
+
+    public void setVehiculo(Vehiculo vehiculo) {
+        this.vehiculo = vehiculo;
     }
 
     public int getTarifa() {

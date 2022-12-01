@@ -97,7 +97,7 @@ public class PlannedTravelsAdapter extends RecyclerView.Adapter<PlannedTravelsAd
             travelDepartureTime = itemView.findViewById(R.id.travelDepartureTime);
             travelArrivalPlace = itemView.findViewById(R.id.travelArrivalPlace);
             travelArrivalTime = itemView.findViewById(R.id.travelArrivalTime);
-            cancelTravel = itemView.findViewById(R.id.cancelTravel);
+            cancelTravel = itemView.findViewById(R.id.solicitarViaje);
             detailsTravel = itemView.findViewById(R.id.detailsTravel);
         }
     }

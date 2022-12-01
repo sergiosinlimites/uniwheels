@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Por favor ingresa el punto de encuentro a donde quieres que el conductor llegue. Aquí puedes colocar direcciones, indicaciones, lugares de referencia. Entre más específico, mejor. El conductor estará en la libertad de aceptar o rechazar esta solicitud dependiendo de si puede llegar a este punto."
+        />
+
+    <EditText
+        android:id="@+id/puntoEncuentro"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Lugar de encuentro"/>
+
+</LinearLayout>

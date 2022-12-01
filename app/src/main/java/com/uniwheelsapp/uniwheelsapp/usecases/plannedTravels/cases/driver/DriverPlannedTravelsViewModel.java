@@ -2,6 +2,7 @@ package com.uniwheelsapp.uniwheelsapp.usecases.plannedTravels.cases.driver;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -47,7 +48,8 @@ public class DriverPlannedTravelsViewModel extends AndroidViewModel {
                     }
                     adapter.updateData(viajes);
                 } else {
-                    Log.d("ALGO", "PASOOOO");
+                    Toast.makeText(getApplication().getApplicationContext(), "Hubo un error al obtener los viajes", Toast.LENGTH_SHORT).show();
+                    Log.d("Error", "No se obtuvieron los viajes");
                 }
             }
         });

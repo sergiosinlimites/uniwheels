@@ -5,10 +5,12 @@ public class ConductorViaje {
     private String nombre;
     private String apellido;
     private String foto;
+    private int celular;
     private float calificacion;
 
-    public ConductorViaje(String correo, String nombre, String apellido, String foto, float calificacion) {
+    public ConductorViaje(String correo, int celular, String nombre, String apellido, String foto, float calificacion) {
         this.correo = correo;
+        this.celular = celular;
         this.nombre = nombre;
         this.apellido = apellido;
         this.foto = foto;

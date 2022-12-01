@@ -10,6 +10,8 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 public class FirebaseDBService extends Service {
@@ -34,6 +36,26 @@ public class FirebaseDBService extends Service {
     public Query searchByField(String path, String fieldName, String fieldValue){
         return db.collection(path)
             .whereEqualTo(fieldName, fieldValue);
+    }
+
+    public Query searchByArrayItem(String path, String email){
+        return db.collection(path).whereArrayContains("correosPasajeros", email);
+    }
+
+    public Query searchTravelsFromDates(Date salida, Date llegada){
+        return db.collection("viajes").whereGreaterThan("salida", salida).whereLessThan("llegada", llegada);
+    }
+
+    public Query searchTravelsFromDate(Date salida){
+        return db.collection("viajes").whereGreaterThan("salida", salida);
+    }
+
+    public Query searchTravelsToDate(Date llegada){
+        return db.collection("viajes").whereGreaterThan("salida", new Date()).whereLessThan("llegada", llegada);
+    }
+
+    public Query searchTravelsWithNoDates(){
+        return db.collection("viajes").whereGreaterThan("salida", new Date());
     }
 
     public Task<DocumentSnapshot> getData(DocumentReference documentReference){

@@ -77,16 +77,19 @@ public class PlannedTravelsActivity extends AppCompatActivity {
 
     private void startFragment(){
         FragmentManager manager = getSupportFragmentManager();
-        if (person.getTipo().toString().equals("CONDUCTOR")){
+        if (person.getTipo().equals("CONDUCTOR")){
             Bundle bundle = new Bundle();
             bundle.putParcelable("person", (Parcelable) person);
             DriverPlannedTravelsFragment driverHomeFragment = new DriverPlannedTravelsFragment();
             driverHomeFragment.setArguments(bundle);
             manager.beginTransaction().replace(binding.repleaceableLayout.getId(), driverHomeFragment).commit();
-        } else if (person.getTipo().toString().equals("PASAJERO")){
-//            PassengerHomeFragment passengerHomeFragment = new PassengerHomeFragment();
-//            manager.beginTransaction().replace(binding.repleaceableLayout.getId(), passengerHomeFragment).commit();
-        } else if (person.getTipo().toString().equals("ADMIN")){
+        } else if (person.getTipo().equals("PASAJERO")){
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("person", (Parcelable) person);
+            PassengerHomeFragment passengerHomeFragment = new PassengerHomeFragment();
+            passengerHomeFragment.setArguments(bundle);
+            manager.beginTransaction().replace(binding.repleaceableLayout.getId(), passengerHomeFragment).commit();
+        } else if (person.getTipo().equals("ADMIN")){
 //            AdminHomeFragment adminHomeFragment = new AdminHomeFragment();
 //            manager.beginTransaction().replace(binding.repleaceableLayout.getId(), adminHomeFragment).commit();
         }

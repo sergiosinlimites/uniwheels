@@ -65,7 +65,7 @@ public class DriverPlannedTravelsFragment extends Fragment implements PlannedTra
         binding.listaViajes.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new PlannedTravelsAdapter(viajesPlaneados, this);
         binding.listaViajes.setAdapter(adapter);
-        viewModel.getTravelsByDriver(adapter, person.getEmail().toString());
+        viewModel.getTravelsByDriver(adapter, person.getEmail());
     }
 
 

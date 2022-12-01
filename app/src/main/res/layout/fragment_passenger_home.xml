@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="467dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -25,139 +25,121 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Log out" />
-        </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="145dp">
-
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="391dp"
-                android:layout_height="140dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_regular"
-                    android:text="@string/home_fill_data"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/planTravelButton"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="20dp"
+                app:strokeColor="@color/high_green"
+                app:strokeWidth="2dp">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:id="@+id/planTravelLayout"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:background="@color/gray_green"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="20dp">
 
-                    <LinearLayout
+                    <TextView
+                        android:id="@+id/textView12"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content"
+                        android:text="@string/plan_travel_driver_home"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                        <Space
-                            android:layout_width="50dp"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="346dp"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <EditText
-                            android:id="@+id/departureInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:ems="10"
-                            android:hint="@string/home_departure_point"
-                            android:inputType="textPostalAddress"
-                            android:textColor="@color/green"
-                            android:textColorHint="@color/light_green" />
-
-                        <EditText
-                            android:id="@+id/arrivalInput"
-                            android:layout_width="match_parent"
-                            android:layout_height="56dp"
-                            android:ems="10"
-                            android:hint="@string/home_arrival_point"
-                            android:inputType="textPostalAddress"
-                            android:textColor="@color/green"
-                            android:textColorHint="@color/light_green" />
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/plan_travel_description_driver_home"
+                        android:textSize="16sp" />
                 </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <LinearLayout
-                android:layout_width="390dp"
-                android:layout_height="78dp"
-                android:orientation="vertical"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/home_what_want"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/reviewRequestsButton"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="20dp"
+                app:strokeColor="@color/high_green"
+                app:strokeWidth="2dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_green"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="20dp">
 
-                    <Button
-                        android:id="@+id/goNowButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="56dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/gray_green"
-                        android:onClick="onGoNow"
-                        android:text="@string/home_now"
-                        android:textAllCaps="false"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="20dp" />
+                    <TextView
+                        android:id="@+id/textView14"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/review_request_driver_home"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                    <Space
-                        android:layout_width="20dp"
-                        android:layout_height="wrap_content" />
-
-                    <Button
-                        android:id="@+id/planButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="56dp"
-                        android:layout_weight="1"
-                        android:backgroundTint="@color/green"
-                        android:onClick="onPlanRide"
-                        android:text="@string/home_plan"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        app:cornerRadius="20dp" />
-
+                    <TextView
+                        android:id="@+id/textView15"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/review_request_description_driver_home"
+                        android:textSize="16sp" />
                 </LinearLayout>
-            </LinearLayout>
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/profileButton"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginBottom="10dp"
+                app:cardCornerRadius="20dp"
+                app:strokeColor="@color/high_green"
+                app:strokeWidth="2dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_green"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="20dp">
+
+                    <TextView
+                        android:id="@+id/textView16"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_driver_home"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/profile_description_driver_home"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+
+        </LinearLayout>
 
     </LinearLayout>
 </FrameLayout>
