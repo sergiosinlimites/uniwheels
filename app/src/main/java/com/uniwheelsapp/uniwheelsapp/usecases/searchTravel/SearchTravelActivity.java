@@ -342,8 +342,8 @@ public class SearchTravelActivity extends AppCompatActivity implements Available
             public void onChanged(ArrayList<Viaje> viajes) {
                 ArrayList<Viaje> posiblesViajes = new ArrayList<>();
                 Log.d("TAMAÑO INICIAL", String.valueOf(viajes.size()));
-                Boolean continua = true;
                 for(Viaje viajeLista : viajes){
+                    Boolean continua = true;
                     Log.d("tipoViajeSelected", tipoViajeSelected + " " +  String.valueOf(tipoViajeSelected != null && !tipoViajeSelected.isEmpty() && !tipoViajeSelected.equals(SELECCIONA_VIAJE) && !viajeLista.getTipoViaje().equals(tipoViajeSelected)));
                     Log.d("localidadSelected", localidadSelected + " " + String.valueOf(localidadSelected != null && !localidadSelected.isEmpty() && !localidadSelected.equals(SELECCIONA_LOCALIDAD) && !viajeLista.getLugar().getLocalidad().equals(localidadSelected)));
                     Log.d("upzSelected",upzSelected + " " +  String.valueOf(upzSelected != null && !upzSelected.isEmpty() && !upzSelected.equals(SELECCIONA_UPZ) && !viajeLista.getLugar().getUpz().equals(upzSelected)));
@@ -361,16 +361,17 @@ public class SearchTravelActivity extends AppCompatActivity implements Available
                        continua = false;
                     }
                     for(PasajeroViaje pasajeroViaje : viajeLista.getPasajeros()){
-                        //Log.d("CORREO PASAJERO", pasajeroViaje.getCorreo());
+                        Log.d("CORREO PASAJERO", pasajeroViaje.getCorreo());
                         if(pasajeroViaje.getCorreo().equals(person.getEmail())){
                             continua = false;
                         }
                     }
                     if(continua){
-                        //Log.d("posibles viajes", viajeLista.getDocumentId());
+                        Log.d("posibles viajes", viajeLista.getDocumentId());
                         posiblesViajes.add(viajeLista);
                     }
                 }
+                Log.d("posibles viajes final", String.valueOf(posiblesViajes.size()));
                 adapter.updateData(posiblesViajes);
             }
         });
